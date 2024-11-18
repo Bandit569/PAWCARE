@@ -1,0 +1,7 @@
+{
+  "AutoloadFolder": [
+    "src/Classes",
+    "src/Controllers",
+    "src/Models"
+  ]
+}

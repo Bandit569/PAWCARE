@@ -1,0 +1,32 @@
+[{
+  "path" : "/",
+  "controller" : "Home",
+  "action" : "Home",
+  "method" : "GET",
+  "param" : []
+},
+  {
+    "path" : "/Login",
+    "controller" : "Home",
+    "action" : "Login",
+    "method" : "GET",
+    "param" : []
+  },
+  {
+    "path" : "/Login",
+    "controller" : "Home",
+    "action" : "Authenticate",
+    "method" : "POST",
+    "param" : [
+      "login",
+      "password"
+    ]
+  },
+  {
+    "path" : "/MyError",
+    "controller" : "MyError",
+    "action" : "Show",
+    "method" : "GET",
+    "param" : [],
+    "manager": []
+  }]
