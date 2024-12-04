@@ -2,21 +2,18 @@
 
 namespace Controllers;
 
-require_once "BaseController.php";
-
 use Classes\Exceptions\ViewNotFoundException;
 use Controllers\BaseController;
 
+require_once "BaseController.php";
 
-
-class Request extends BaseController
+class petOwnerSearch extends BaseController
 {
     /**
      * @throws ViewNotFoundException
      */
-    public function Request(): void
+    function petOwnerSearch(): void
     {
-        $this->view("Request");
+        $this->view("petOwnerSearch");
     }
-
 }

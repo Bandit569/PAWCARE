@@ -13,8 +13,8 @@
         <li class="dropdown">
             <a href="#" class="dropbtn">Find a Caretaker</a>
             <ul class="dropdown-content">
-                <li><a class = "drop-down-a" href="/requests">Post a Request</a></li>
-                <li><a href="/caretakers">Search for a Caretaker</a></li>
+                <li><a class = "drop-down-a" href="/PAWCARE/Request">Post a Request</a></li>
+                <li><a href="/PAWCARE/petOwnerSearch">Search for a Caretaker</a></li>
             </ul>
         </li>
         <li class="dropdown">

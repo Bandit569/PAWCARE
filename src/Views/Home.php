@@ -19,13 +19,24 @@
 <!-- Main Content -->
 <main>
     <section class="hero">
-        <h1>Welcome to Pawcare!</h1>
-        <p>Your trusted partner in finding pet caretakers.</p>
-        <a href="/services" class="cta-button">Explore Services</a>
+        <div class="cat-image">
+            <img src="/PAWCARE/public/Images/GPTMyLove.webp" alt="Cat">
+        </div>
+        <div class="hero-text">
+            <h1>Welcome to Pawcare!</h1>
+            <p>Your trusted partner in finding pet caretakers.</p>
+            <a href="/services" class="cta-button">Explore Services</a>
+        </div>
+        <div class="lemon-cake-image">
+            <img src="/PAWCARE/public/Images/LemonCakesMyLove.webp" alt="Lemon Cake">
+        </div>
+    </section>
+
+    <section class="I need a herooo">
+
     </section>
 </main>
 
-<script src="/PAWCARE/public/js/main.js"></script>
 
 <?php require_once (dirname(__DIR__).'\Views\components\footer.php'); ?>
 
