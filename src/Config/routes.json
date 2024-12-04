@@ -29,4 +29,13 @@
     "method" : "GET",
     "param" : [],
     "manager": []
-  }]
+  },
+  {
+    "path" : "/Request",
+    "controller" : "Request",
+    "action" : "Request",
+    "method" : "GET",
+    "param" : [],
+    "manager": []
+  }
+]
