@@ -39,10 +39,34 @@
   },
   {
     "path" : "/Request",
-    "controller" : "Request",
+    "controller" : "RequestController",
     "action" : "Request",
     "method" : "GET",
     "param" : [],
     "manager": []
+  },
+
+
+
+  {
+    "path" : "/submitRequest",
+    "controller" : "ServiceRequestController",
+    "action" : "",
+    "method" : "GET",
+    "param" : []
+  },
+  {
+    "path" : "/login",
+    "controller" : "LoginController",
+    "action" : "",
+    "method" : "GET",
+    "param" : []
+  },
+  {
+    "path" : "/register",
+    "controller" : "Register",
+    "action" : "",
+    "method" : "GET",
+    "param" : []
   }
 ]

@@ -11,8 +11,8 @@ use Classes\Exceptions\ControllerNotFoundException;
 
 
 
-require_once(dirname(__FILE__)."/Exceptions/ControllerNotFoundException.php");
-require_once(dirname(__FILE__)."/Exceptions/ActionNotFoundException.php");
+//require_once(dirname(__FILE__)."/Exceptions/ControllerNotFoundException.php");
+//require_once(dirname(__FILE__)."/Exceptions/ActionNotFoundException.php");
 
 
 /**
