@@ -22,7 +22,7 @@ class DatabaseConnection
 
     private function __construct()
     {
-        $this->conn = new PDO("mysql:host=".DB_HOST.";dbname=".DB_DATABASE,DB_USER,DB_PASSWORD);
+        $this->conn = new PDO("mysql:host=".DB_HOST.";dbname=".DB_DATABASE,DB_USER);
     }
 
     public function getConnection(): PDO

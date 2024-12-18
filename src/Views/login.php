@@ -14,7 +14,7 @@
 
 <body>
 <p>
-<form action="/LoginController/authenticate" method="POST">
+<form action="/PAWCARE/Login" method="POST">
     <label for="username">Username</label>
     <input type="text" name="username" required>
 
@@ -24,6 +24,8 @@
     <button type="submit">Login</button>
 </form>
 </p>
+
+
 </body>
 </html>
 

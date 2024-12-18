@@ -8,9 +8,6 @@ use Models\ServiceRequestModel;
 class ServiceRequestController extends BaseController
 {
 
-
-
-
     public function submitRequest(): void
     {
         $serviceRequestModel = new ServiceRequestModel();
@@ -33,6 +30,7 @@ class ServiceRequestController extends BaseController
                 echo "Validation failed. Please check your input.";
             }
         }
+        $this->view('Request');
     }
 
     private function validateData($data)
@@ -45,4 +43,11 @@ class ServiceRequestController extends BaseController
         }
         return true;
     }
+
+    /*
+    $controller = new ServiceRequestController();
+    if ($_GET['action'] === 'submitRequest') {
+        $controller->submitRequest();
+    }*/
+
 }

@@ -6,19 +6,19 @@
   "param" : []
 },
   {
-    "path" : "/Login",
-    "controller" : "Home",
-    "action" : "Login",
+    "path" : "/login",
+    "controller" : "LoginController",
+    "action" : "login",
     "method" : "GET",
     "param" : []
   },
   {
-    "path" : "/Login",
-    "controller" : "Home",
-    "action" : "Authenticate",
+    "path" : "/login",
+    "controller" : "LoginController",
+    "action" : "authenticate",
     "method" : "POST",
     "param" : [
-      "login",
+      "user_id",
       "password"
     ]
   },
@@ -39,29 +39,20 @@
   },
   {
     "path" : "/Request",
-    "controller" : "RequestController",
-    "action" : "Request",
+    "controller" : "ServiceRequestController",
+    "action" : "submitRequest",
     "method" : "GET",
     "param" : [],
     "manager": []
   },
-
-
-
   {
-    "path" : "/submitRequest",
-    "controller" : "ServiceRequestController",
-    "action" : "",
-    "method" : "GET",
-    "param" : []
+    "action": "submitRequest",
+    "controller": "ServiceRequestController",
+    "method": "POST",
+    "param": [],
+    "path": "/submitRequest"
   },
-  {
-    "path" : "/login",
-    "controller" : "LoginController",
-    "action" : "",
-    "method" : "GET",
-    "param" : []
-  },
+
   {
     "path" : "/register",
     "controller" : "Register",
