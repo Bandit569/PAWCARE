@@ -19,12 +19,16 @@ class LoginController extends BaseController
 
             $authenticatedUser = $UserLoginModel->authenticateUser($userid);
 
-            if ($authenticatedUser && password_verify($password, $authenticatedUser['password'])) {
+            if ($authenticatedUser && $password == $authenticatedUser['password']) {
                 session_start();
+                // echo "Session started!";
                 $_SESSION['user_id'] = $authenticatedUser['user_id'];
                 $_SESSION['user_type'] = $authenticatedUser['user_type'];
+/*
+                echo $_SESSION['user_id'];
+                echo $_SESSION['user_type'];*/
 
-                header("Location: /Home.php");
+                header("Location: /PAWCARE/Home.php");
                 exit();
             } else {
                 echo 'Invalid email or password';

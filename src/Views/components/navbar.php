@@ -77,16 +77,17 @@
     linkFont.href = 'https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap';
     document.head.appendChild(linkFont);
 </script>
+
+
 <script>
-
-
-
 // toggle display of Login/Register with Profile button
     var username = "<?php echo $_SESSION['user_id']?>";
     if(username) {
         const isLoggedIn = true; // Set to false to simulate not logged in
     }
-    else isLoggedIn = false;
+    else {
+        isLoggedIn = false;
+    }
 
     // Get button elements
     const profileBtn = document.getElementById("profile-btn");

@@ -25,18 +25,16 @@
         <div class="hero-text">
             <h1>Welcome to Pawcare!</h1>
 
-            <p>
             <form class="form-container" action="/PAWCARE/login" method="POST">
 
-                        <label for="userid">User ID</label>
-                        <input type="text" name="userid" required>
-                <label for="password">Password</label>
-                <input type="password" name="password" required>
+                        <label class="form-group" for="userid">User ID</label>
+                        <input class="form-group" type="text" name="userid" required>
+                <label class="form-group" for="password">Password</label>
+                <input class="form-group" type="password" name="password" required>
 
                 <button class="Reqbutton" type="submit">Login</button>
 
             </form>
-            </p>
 
         </div>
         <div class="lemon-cake-image">
