@@ -3,28 +3,29 @@
 namespace Controllers;
 
 use Controllers\BaseController;
+use Models\UserModel;
 
 class LoginController extends BaseController
 {
+
+    private $UserLoginModel;
+
     public function authenticate()
     {
+        $UserLoginModel = new UserModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = $_POST['username'];
+            $userid = $_POST['username'];
             $password = $_POST['password'];
 
-            $user = $this->model('User');
-            $authenticatedUser = $user->loginUser($username);
+            $authenticatedUser = $UserLoginModel->authenticateUser($userid);
 
             if ($authenticatedUser && password_verify($password, $authenticatedUser['password'])) {
                 session_start();
-                $_SESSION['user_id'] = $authenticatedUser['id'];
-                $_SESSION['role'] = $authenticatedUser['role'];
+                $_SESSION['user_id'] = $authenticatedUser['user_id'];
+                $_SESSION['user_type'] = $authenticatedUser['user_type'];
 
-                /*                if ($authenticatedUser['role'] === 'owner') {
-                                    header('Location: /PetOwnerController/dashboard');
-                                } else if ($authenticatedUser['role'] === 'caretaker') {
-                                    header('Location: /CaretakerController/dashboard');
-                                }*/
+                header("Location: /Home.php");
+                exit();
             } else {
                 echo 'Invalid email or password';
             }

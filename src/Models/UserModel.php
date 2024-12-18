@@ -29,4 +29,11 @@ class UserModel
             ':user_type' => $role,
         ]);
     }
+
+    public function authenticateUser($userid)
+    {
+        $sql = "SELECT * FROM user_details WHERE user_id =:user_id";
+        $stmt = $this->conn->query($sql, [':user_id' => $userid]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

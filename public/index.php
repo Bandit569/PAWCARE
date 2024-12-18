@@ -37,7 +37,6 @@ try {
     $Httprequest->setRoute($router->findRoute($Httprequest));
     $Httprequest->run($config);
 } catch (Exception $e) {
-    echo "lol";
     $Httprequest = new Httprequest('/PAWCARE/MyError','GET');
     $Router = new Router();
     $Httprequest->setRoute($Router->findRoute($Httprequest));

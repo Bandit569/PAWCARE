@@ -3,12 +3,12 @@
         <span class="material-symbols-outlined">menu</span>
     </button>
     <div class="logo">
-        <a href="/">
+        <a href="/PAWCARE/">
             <img style="height:56px; width:auto;" src="/PAWCARE/public/images/Logo.png" alt="Logo">
         </a>
     </div>
     <ul class="nav-links">
-        <li><a href="/">Home</a></li>
+        <li><a href="/PAWCARE/">Home</a></li>
         <li><a href="/services">Services</a></li>
         <li class="dropdown">
             <a href="#" class="dropbtn">Find a Caretaker</a>
