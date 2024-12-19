@@ -2,6 +2,7 @@
 
 namespace Models;
 
+use Entities\UserEntity;
 use PDO;
 
 class UserModel
@@ -29,4 +30,40 @@ class UserModel
             ':user_type' => $role,
         ]);
     }
+
+    public function getUserById(int $userId): ?UserEntity {
+        $sql = "SELECT * FROM $this->table WHERE user_id = :userId";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Fetch the data as an associative array
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            // Extract data from the row
+            $firstname = $row['user_first_name'] ?? null;
+            $lastname = $row['user_last_name'] ?? null;
+
+            $email = $row['user_email'] ?? null;
+            $username = $row['user_username'] ?? null;
+            $contactno = $row['user_contact_number'] ?? null;
+            $userType1 = $row['user_type'] ?? null;
+
+            $userId = $row['user_id'] ?? null;
+
+            // Fetch the user type
+            $utm = new UserTypeModel();
+
+            $userType = $utm->getUserTypeById($userType1);
+
+
+            // Return the UserEntity object
+            return new UserEntity($userId, $firstname, $lastname, $email, $username, $userType, $contactno);
+        }
+
+        // Return null if no user found
+        return null;
+    }
+
 }

@@ -12,7 +12,7 @@ class ServiceTypeModel
     public function __construct()
     {
         $this->conn = DatabaseConnection::getInstance();
-        $this->table = "service_requests";
+        $this->table = "service_type";
     }
 
     public function getServiceTypes(): array
@@ -52,43 +52,7 @@ class ServiceTypeModel
         return null;
     }
 
-    public function getAllServiceRequests(): array
-    {
-        $stmt = $this->conn->prepare("SELECT * FROM $this->table WHERE acceptor_id IS NULL");
-        $stmt->execute();
 
-        $serviceRequests = [];
-
-        // Bind columns to PHP variables
-        $stmt->bindColumn("serviceRequestId", $id);
-        $stmt->bindColumn("userId", $userId);
-        $stmt->bindColumn("serviceTypeId", $serviceTypeId);
-        $stmt->bindColumn("requestTypeId", $requestTypeId);
-        $stmt->bindColumn("date", $date);
-        $stmt->bindColumn("time", $time);
-        $stmt->bindColumn("requestStatus", $status);
-        $stmt->bindColumn("addressId", $addressId);
-
-        $addressModel = new AddressModel();
-
-        // Fetch all results
-        while ($stmt->fetch(PDO::FETCH_BOUND)) {
-            $address = $addressModel->getAddressById($addressId);
-
-            // Create and store the ServiceRequestEntity object
-            $serviceRequests[] = new ServiceRequestEntity(
-                $id,
-                $date,
-                $status,
-                $requestTypeId,
-                $serviceTypeId,
-                $userId,
-                $address
-            );
-        }
-
-        return $serviceRequests;
-    }
 
 
 }

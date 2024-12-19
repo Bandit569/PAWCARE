@@ -30,6 +30,8 @@ class ServiceRequestModel
         $req -> bindColumn("request_status",$status);
         $req -> bindColumn("address_id",$addressId);
         $req -> bindColumn("acceptor_id",$acceptorId);
+        $req -> bindColumn("price",$price);
+        $req -> bindColumn("description",$description);
         $addressModel = new AddressModel();
         $date2 = new DateTime($date);
         $address  = $addressModel -> getAddressById($addressId);
@@ -38,7 +40,7 @@ class ServiceRequestModel
         }
 
         if ($req -> fetch(PDO::FETCH_BOUND)){
-            return new ServiceRequestEntity($id,$date2,$status,$requestTypeId,$serviceTypeId,$address,$userId,$acceptorId);
+            return new ServiceRequestEntity($id,$date2,$status,$requestTypeId,$serviceTypeId,$address,$description,$price,$userId,$acceptorId);
         }
         return null;
     }
@@ -61,6 +63,8 @@ class ServiceRequestModel
         $stmt -> bindColumn("request_status",$status);
         $stmt -> bindColumn("address_id",$addressId);
         $stmt -> bindColumn("acceptor_id",$acceptorId);
+        $stmt -> bindColumn("price",$price);
+        $stmt -> bindColumn("description",$description);
 
         $addressModel = new AddressModel();;
         $date2 = new DateTime($date);
@@ -68,10 +72,20 @@ class ServiceRequestModel
         // Fetch all results
         while ($stmt->fetch(PDO::FETCH_BOUND)) {
 
+            $Userm = new UserModel();
+            $usere = $Userm -> getUserById($userId);
+
+
             $address = $addressModel->getAddressById($addressId);
             if(!isset($address)){
                 $address = new AddressEntity($addressId,0,"ERROR","ERROR","ERROR",$userId);
             }
+            if(!isset($description)){
+                $description = "No Description provided";
+            }
+
+
+
             // Create and store the ServiceRequestEntity object
             $serviceRequests[] = new ServiceRequestEntity(
                 $id,
@@ -80,7 +94,9 @@ class ServiceRequestModel
                 $requestTypeId,
                 $serviceTypeId,
                 $address,
-                $userId,
+                $description,
+                $price,
+                $usere,
             );
         }
 

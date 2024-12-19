@@ -3,6 +3,8 @@
  * @var ServiceTypeEntity [] $ServiceTypes The list of Service types fetched from service_type table.
  *
  * @var \Entities\ServiceRequestEntity [] $listings The list of all service requests from
+ *
+ * @var ServiceTypeEntity [] $services The list of proposed services
  */
 
 use Entities\ServiceTypeEntity;
@@ -24,28 +26,41 @@ use Entities\ServiceTypeEntity;
     // Sample PHP array with listing data
     ?>
     <script>
-        function f(){
+        function f() {
+            // Use the listings data passed from PHP
+            const listingsData = <?php echo json_encode(array_map(function ($listing) {
+                return [
+                    'img' => 'placeholder.jpg', // Replace this with the appropriate image logic if available
+                    'alt' => $listing->getServiceType(),
+                    'name' => $listing->getUser()->getFirstName() . ' ' . $listing->getUser()->getLastName(),
+                    'description' => $listing->getDescription(),
+                    'price' => $listing->getPrice(),
+                    'review' => 'Placeholder review' // Replace this with actual review data if available
+                ];
+            }, $listings)); ?>;
+
             const listingsContainer = document.querySelector('.list');
 
-            forEach(listing => {
+            listingsData.forEach(listing => {
                 const listingDiv = document.createElement('div');
                 listingDiv.classList.add('listing');
 
-                listingDiv.innerHTML =
-                    <div class="info">
-                        <img src="${listing.img}" alt="${listing.alt}">
-                            <div>
-                                <h3>${listing.name}</h3>
-                                <p>${listing.description}</p>
-                                <p>From <strong>${listing.price}</strong></p>
-                            </div>
-                    </div>
-                <p>${listing.review}</p>
-            ;
+                listingDiv.innerHTML = `
+            <div class="info">
+                <img src="${listing.img}" alt="${listing.alt}">
+                <div>
+                    <h3>${listing.name}</h3>
+                    <p>${listing.description}</p>
+                    <p>From <strong>${listing.price}</strong></p>
+                </div>
+            </div>
+            <p>${listing.review}</p>
+        `;
 
-            listingsContainer.appendChild(listingDiv);
+                listingsContainer.appendChild(listingDiv);
             });
         }
+
     </script>
 </head>
 
@@ -63,8 +78,8 @@ use Entities\ServiceTypeEntity;
             <label>
                 <select>
                     <?php
-                    if (!empty($ServiceTypes)) {
-                        foreach ($ServiceTypes as $service) {
+                    if (!empty($services)) {
+                        foreach ($services as $service) {
                             echo '<option>' . htmlspecialchars($service->getName()) . '</option>';
                         }
                     } else {

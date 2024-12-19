@@ -12,7 +12,7 @@ class ServiceRequestEntity
 
     private string $status;
 
-    private int $user_id;
+    private UserEntity $user;
 
 
     private AddressEntity  $address;
@@ -23,16 +23,22 @@ class ServiceRequestEntity
 
     private int $acceptor_id;
 
+    private int $price;
 
-    public function __construct($id, $date, $status, $request_type, $service_type, $address, $user_id, $acceptor_id=-1){
+    private string $description;
+
+
+    public function __construct($id, $date, $status, $request_type, $service_type, $address, $description = "No Description", $price = 0,$user = null, $acceptor_id=-1){
         $this->id = $id;
         $this->date = $date;
         $this->status = $status;
-        $this->user_id = $user_id;
+        $this -> user = $user;
         $this->address = $address;
         $this->request_type = $request_type;
         $this->service_type = $service_type;
         $this->acceptor_id = $acceptor_id;
+        $this->description = $description;
+        $this->price = $price;
 
     }
 
@@ -40,14 +46,16 @@ class ServiceRequestEntity
     {
         return $this->id;
     }
-    public function getDate(): Date{
+    public function getDate(): \DateTime
+    {
         return $this->date;
     }
     public function getStatus(): string{
         return $this->status;
     }
-    public function getUserId(): int{
-        return $this->user_id;
+    public function getUser(): UserEntity
+    {
+        return $this->user;
     }
     public function getAddress(): AddressEntity{
         return $this->address;
@@ -61,4 +69,11 @@ class ServiceRequestEntity
     public function getAcceptorId(): int{
         return $this->acceptor_id;
     }
+    public function getDescription(): string{
+        return $this->description;
+    }
+    public function getPrice(): float{
+        return $this->price;
+    }
+
 }

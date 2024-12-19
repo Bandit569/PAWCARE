@@ -5,6 +5,7 @@ namespace Controllers;
 use Classes\Exceptions\ViewNotFoundException;
 use Controllers\BaseController;
 use Models\ServiceRequestModel;
+use Models\ServiceTypeModel;
 
 
 class petOwnerSearch extends BaseController
@@ -17,6 +18,9 @@ class petOwnerSearch extends BaseController
 
          $serviceRequestModel = new ServiceRequestModel();
          $listings = $serviceRequestModel -> PetOwnerSearchGetter();
+         $ServiceTypeModel = new ServiceTypeModel();
+         $serviceTypes = $ServiceTypeModel -> getServiceTypes();
+         $this-> addParam("services", $serviceTypes);
          $this -> addParam("listings", $listings);
          $this->view("petOwnerSearch");
     }
