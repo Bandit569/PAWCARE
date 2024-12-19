@@ -44,10 +44,5 @@ class ServiceRequestController extends BaseController
         return true;
     }
 
-    /*
-    $controller = new ServiceRequestController();
-    if ($_GET['action'] === 'submitRequest') {
-        $controller->submitRequest();
-    }*/
 
 }

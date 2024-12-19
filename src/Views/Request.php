@@ -28,17 +28,17 @@
         </div>
         <div class="form-container">
             <h1>Service Request Form</h1>
-            <form action="ServiceRequestController.php?action=submitRequest" method="POST">
+            <form action="submitRequest" method="POST">
                 <!-- User Details -->
                 <div class="form-group">
                 <label for="userID">User ID:</label>
-                <input type="number" id="userID" name="userID" required disabled><br><br>
+                <input type="number" id="userID" name="userID" required><br><br>
                 </div>
 
                 <div class="form-group">
                 <!-- Pet Details -->
                 <label for="petID">Pet ID:</label>
-                <input type="number" id="petID" name="petID" required><br><br>
+                <input type="number" id="petID" name="petID" required disabled><br><br>
                 </div>
 
                 <div class="form-group">
@@ -55,13 +55,13 @@
                 <div class="form-group">
                 <!-- Service Request Type -->
                 <label for="requestType">Request Type:</label>
-                <input type="text" id="requestType" name="requestType" required><br><br>
+                <input type="text" id="requestType" name="requestType" required disabled><br><br>
                 </div>
 
                 <div class="form-group">
                 <!-- Address -->
                 <label for="addressID">Address ID:</label>
-                <input type="number" id="addressID" name="addressID" required><br><br>
+                <input type="number" id="addressID" name="addressID" required disabled><br><br>
                 </div>
 
                 <div class="form-group">
@@ -75,19 +75,19 @@
 
                 <div class="form-group">
                 <!-- Request Status -->
-                <label for="requestStatus">Request Status:</label>
-                <select id="requestStatus" name="requestStatus" required>
+               <!-- <label for="requestStatus">Request Status:</label>
+                <select id="requestStatus" name="requestStatus" required disabled>
                     <option value="Pending">Pending</option>
                     <option value="Accepted">Accepted</option>
                     <option value="Completed">Completed</option>
-                </select><br><br>
+                </select><br><br>-->
 
                 <!-- Acceptor ID -->
                 <label for="acceptorID">Acceptor ID:</label>
                 <input type="number" id="acceptorID" name="acceptorID" disabled><br><br>
                 </div>
                 <!-- Submit Button -->
-                <button class="Reqbutton" type="submit">Submit Service Request</button>
+                <button class="Reqbutton" type="submit" onclick="submitRequest">Submit Service Request</button>
             </form>
         </div>
         <!--<div class="lemon-cake-image">

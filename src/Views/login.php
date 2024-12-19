@@ -24,14 +24,14 @@
         </div>
         <div class="hero-text">
             <h1>Login to PawCare</h1>
-            <form action="/Login" method="POST">
-                <label for="username">Username</label>
-                <input type="username" name="username" id="username" required>
+            <form class="form-container" action="/Login" method="POST">
+                <label class="form-group" for="username">Username</label>
+                <input class="form-group" type="username" name="username" id="username" required>
 
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" required>
+                <label class="form-group" for="password">Password</label>
+                <input class="form-group" type="password" name="password" id="password" required>
 
-                <button type="submit">Login</button>
+                <button class="Reqbutton" type="submit">Login</button>
             </form>
 
             <p>Don't have an account? <a href="/Register" class="cta-button">Register here</a></p>

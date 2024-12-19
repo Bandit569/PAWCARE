@@ -21,7 +21,7 @@
 
             <a href="#" class="dropbtn">Become a Caretaker</a>
             <ul class="dropdown-content">
-                <li><a href="/offers">Post an Offer</a></li>
+                <li><a href="/PAWCARE/Offers">Post an Offer</a></li>
                 <li><a href="/pet-owners">Look for Pet Owners in Need</a></li>
             </ul>
         </li>

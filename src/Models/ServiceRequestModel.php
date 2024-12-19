@@ -59,4 +59,9 @@ class ServiceRequestModel
 
         return $this->conn->lastInsertId();
     }
+
+    public function addServiceOffer($data)
+    {
+
+    }
 }
