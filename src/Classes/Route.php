@@ -65,7 +65,7 @@ class Route
     {
         $controller = null;
         $controllerName = $this->_controller;
-        include_once(dirname(__DIR__)."/Controllers/".$controllerName.".php");
+        //include_once(dirname(__DIR__)."/Controllers/".$controllerName.".php");
         if(class_exists("\\Controllers\\".$controllerName))
         {
             $controllerClass = "\\Controllers\\".$controllerName;

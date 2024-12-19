@@ -28,7 +28,7 @@
         </div>
         <div class="form-container">
             <h1>Service Request Form</h1>
-            <form action="submitRequest" method="POST">
+            <form action="Request" method="POST">
                 <!-- User Details -->
                 <div class="form-group">
                 <label for="userID">User ID:</label>
@@ -87,7 +87,7 @@
                 <input type="number" id="acceptorID" name="acceptorID" disabled><br><br>
                 </div>
                 <!-- Submit Button -->
-                <button class="Reqbutton" type="submit" onclick="submitRequest">Submit Service Request</button>
+                <button class="Reqbutton" type="submit" onclick="Request">Submit Service Request</button>
             </form>
         </div>
         <!--<div class="lemon-cake-image">
