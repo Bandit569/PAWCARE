@@ -3,7 +3,7 @@
         <span class="material-symbols-outlined">menu</span>
     </button>
     <div class="logo">
-        <a href="/">
+        <a href="/PAWCARE/">
             <img style="height:56px; width:auto;" src="/PAWCARE/public/images/Logo.png" alt="Logo">
         </a>
     </div>
@@ -21,13 +21,14 @@
 
             <a href="#" class="dropbtn">Become a Caretaker</a>
             <ul class="dropdown-content">
-                <li><a href="/offers">Post an Offer</a></li>
+                <li><a href="/PAWCARE/Offers">Post an Offer</a></li>
                 <li><a href="/pet-owners">Look for Pet Owners in Need</a></li>
             </ul>
         </li>
         <li><a href="/contact">Contact</a></li>
     </ul>
-    <button class="sidebar-toggle" id="sidebar-toggle">
+    <button id="login-btn" onclick="location.href='/PAWCARE/login'">Login</button>
+    <button id="profile-btn" style="display: none;" class="sidebar-toggle" id="sidebar-toggle">
         <span class="material-symbols-outlined">account_circle</span>
     </button>
 
