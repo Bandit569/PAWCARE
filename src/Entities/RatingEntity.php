@@ -1,6 +1,6 @@
 <?php
 
-namespace Models;
+namespace Entities;
 
 use MongoDB\BSON\Timestamp;
 

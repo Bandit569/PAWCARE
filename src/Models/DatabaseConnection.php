@@ -11,7 +11,7 @@ use PDO;
 
 define('DB_HOST','localhost');
 define('DB_USER','root');
-define('DB_PASSWORD','');
+define('DB_PASSWORD','root');
 define('DB_DATABASE','petcare');
 
 $conn = null;
@@ -22,7 +22,7 @@ class DatabaseConnection
 
     private function __construct()
     {
-        $this->conn = new PDO("mysql:host=".DB_HOST.";dbname=".DB_DATABASE,DB_USER,DB_PASSWORD);
+        $this->conn = new PDO("mysql:host=".DB_HOST.";dbname=".DB_DATABASE,DB_USER, DB_PASSWORD);
     }
 
     public function getConnection(): PDO

@@ -3,12 +3,12 @@
         <span class="material-symbols-outlined">menu</span>
     </button>
     <div class="logo">
-        <a href="/">
+        <a href="/PAWCARE/">
             <img style="height:56px; width:auto;" src="/PAWCARE/public/images/Logo.png" alt="Logo">
         </a>
     </div>
     <ul class="nav-links">
-        <li><a href="/">Home</a></li>
+        <li><a href="/PAWCARE">Home</a></li>
         <li><a href="/services">Services</a></li>
         <li class="dropdown">
             <a href="#" class="dropbtn">Find a Caretaker</a>
@@ -27,7 +27,8 @@
         </li>
         <li><a href="/contact">Contact</a></li>
     </ul>
-    <button class="sidebar-toggle" id="sidebar-toggle">
+    <button id="login-btn" onclick="location.href='/PAWCARE/login'">Login</button>
+    <button id="profile-btn" style="display: none;" class="sidebar-toggle" id="sidebar-toggle">
         <span class="material-symbols-outlined">account_circle</span>
     </button>
 
@@ -35,6 +36,7 @@
 
 <div class="sidebar" id="sidebar">
     <div class="profile">
+
         <img src="https://via.placeholder.com/80" alt="Profile Picture">
         <h3>John Doe</h3>
         <p>Pet Owner</p>
@@ -42,6 +44,7 @@
     <a href="#">Profile Settings</a>
     <a href="#">Manage Requests</a>
     <a href="#">Logout</a>
+
 </div>
 <script>
 
@@ -73,6 +76,37 @@
     linkFont.rel = 'stylesheet';
     linkFont.href = 'https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap';
     document.head.appendChild(linkFont);
+</script>
+<script>
+
+
+
+// toggle display of Login/Register with Profile button
+    var username = "<?php echo $_SESSION['user_id']?>";
+    if(username) {
+        const isLoggedIn = true; // Set to false to simulate not logged in
+    }
+    else isLoggedIn = false;
+
+    // Get button elements
+    const profileBtn = document.getElementById("profile-btn");
+    const loginBtn = document.getElementById("login-btn");
+
+    // Function to control button display
+    function controlButtonDisplay() {
+        if (isLoggedIn) {
+            // User is logged in: Show Profile button, hide Login/Register button
+            profileBtn.style.display = "block";
+            loginBtn.style.display = "none";
+        } else {
+            // User is NOT logged in: Show Login/Register button, hide Profile button
+            profileBtn.style.display = "none";
+            loginBtn.style.display = "block";
+        }
+    }
+
+    // Run the function on page load
+    controlButtonDisplay();
 
 
 </script>

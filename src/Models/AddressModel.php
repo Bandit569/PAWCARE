@@ -2,9 +2,8 @@
 
 namespace Models;
 
+use Entities\AddressEntity;
 use PDO;
-use Models\DatabaseConnection;
-use Models\AddressEntity;
 
 class AddressModel
 {

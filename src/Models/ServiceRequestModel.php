@@ -2,10 +2,10 @@
 
 namespace Models;
 
-use Models\DatabaseConnection;
+use DateTime;
+use Entities\AddressEntity;
+use Entities\ServiceRequestEntity;
 use PDO;
-use Models\ServiceRequestEntity;
-use Models\AddressModel;
 
 class ServiceRequestModel
 {
@@ -14,31 +14,80 @@ class ServiceRequestModel
     public function __construct()
     {
         $this->conn = DatabaseConnection::getInstance();
-        $this->table = "service_requests";
+        $this->table = "service_request";
     }
 
-    public function getServiceRequestById(int $id): ?\Models\ServiceRequestEntity
+    public function getServiceRequestById(int $id): ?\Entities\ServiceRequestEntity
     {
         $req = $this -> conn -> query("SELECT * FROM $this -> table WHERE id = $id");
         $req -> execute(array($id));
 
-        $req -> bindColumn("serviceRequestId", $id);
-        $req -> bindColumn("userId",$userId);
-        $req -> bindColumn("serviceTypeId",$serviceTypeId);
-        $req -> bindColumn("requestTypeId",$requestTypeId);
+        $req -> bindColumn("service_request_id", $id);
+        $req -> bindColumn("user_id",$userId);
+        $req -> bindColumn("service_type_id",$serviceTypeId);
+        $req -> bindColumn("request_type",$requestTypeId);
         $req -> bindColumn("date",$date);
-        $req -> bindColumn("time",$time);
-        $req -> bindColumn("requestStatus",$status);
-        $req -> bindColumn("addressId",$addressId);
-
+        $req -> bindColumn("request_status",$status);
+        $req -> bindColumn("address_id",$addressId);
+        $req -> bindColumn("acceptor_id",$acceptorId);
         $addressModel = new AddressModel();
+        $date2 = new DateTime($date);
         $address  = $addressModel -> getAddressById($addressId);
+        if(!isset($address)){
+            $address = new AddressEntity($addressId,0,"ERROR","ERROR","ERROR",$userId);
+        }
 
         if ($req -> fetch(PDO::FETCH_BOUND)){
-            return new ServiceRequestEntity($id,$date,$status,$requestTypeId,$serviceTypeId,$userId,$address);
+            return new ServiceRequestEntity($id,$date2,$status,$requestTypeId,$serviceTypeId,$address,$userId,$acceptorId);
         }
         return null;
     }
+
+    public function PetOwnerSearchGetter(): array
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM $this->table WHERE acceptor_id IS NULL AND request_type != :excludedType");
+        $excludedType = 1; // Service request type to exclude
+        $stmt->bindParam(':excludedType', $excludedType, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $serviceRequests = [];
+
+        // Bind columns to PHP variables
+        $stmt -> bindColumn("service_request_id", $id);
+        $stmt -> bindColumn("user_id",$userId);
+        $stmt -> bindColumn("service_type_id",$serviceTypeId);
+        $stmt -> bindColumn("request_type",$requestTypeId);
+        $stmt -> bindColumn("date",$date);
+        $stmt -> bindColumn("request_status",$status);
+        $stmt -> bindColumn("address_id",$addressId);
+        $stmt -> bindColumn("acceptor_id",$acceptorId);
+
+        $addressModel = new AddressModel();;
+        $date2 = new DateTime($date);
+
+        // Fetch all results
+        while ($stmt->fetch(PDO::FETCH_BOUND)) {
+
+            $address = $addressModel->getAddressById($addressId);
+            if(!isset($address)){
+                $address = new AddressEntity($addressId,0,"ERROR","ERROR","ERROR",$userId);
+            }
+            // Create and store the ServiceRequestEntity object
+            $serviceRequests[] = new ServiceRequestEntity(
+                $id,
+                $date2,
+                $status,
+                $requestTypeId,
+                $serviceTypeId,
+                $address,
+                $userId,
+            );
+        }
+
+        return $serviceRequests;
+    }
+
+
 
     // Add a new service request
     public function addServiceRequest($data): false|string
@@ -59,4 +108,5 @@ class ServiceRequestModel
 
         return $this->conn->lastInsertId();
     }
+
 }

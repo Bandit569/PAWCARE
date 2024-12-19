@@ -13,17 +13,48 @@
 
 
 <body>
-<p>
-<form action="/LoginController/authenticate" method="POST">
-    <label for="username">Username</label>
-    <input type="text" name="username" required>
+<!-- Navigation -->
+<?php require_once (dirname(__DIR__).'\Views\components\navbar.php'); ?>
 
-    <label for="password">Password</label>
-    <input type="password" name="password" required>
+<!-- Main Content -->
+<main>
+    <section class="hero">
+        <div class="cat-image">
+            <img src="/PAWCARE/public/Images/GPTMyLove.webp" alt="Cat">
+        </div>
+        <div class="hero-text">
+            <h1>Login to PawCare</h1>
+            <form action="/Login" method="POST">
+                <label for="username">Username</label>
+                <input type="username" name="username" id="username" required>
 
-    <button type="submit">Login</button>
-</form>
-</p>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+
+                <button type="submit">Login</button>
+            </form>
+
+            <p>Don't have an account? <a href="/Register" class="cta-button">Register here</a></p>
+
+
+
+        <!--    <p>Your trusted partner in finding pet caretakers.</p>
+            <a href="/services" class="cta-button">Explore Services</a>-->
+        </div>
+<!--        <div class="lemon-cake-image">
+
+            <img src="/PAWCARE/public/Images/LemonCakesMyLove.webp" alt="Lemon Cake">
+        </div>-->
+    </section>
+
+<!--    <section class="I need a herooo">
+
+    </section>-->
+</main>
+
+
+<?php require_once (dirname(__DIR__).'\Views\components\footer.php'); ?>
+
 </body>
 </html>
 
