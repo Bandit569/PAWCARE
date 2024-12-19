@@ -7,6 +7,7 @@ use Entities\AddressEntity;
 use Entities\ServiceRequestEntity;
 use PDO;
 
+
 class ServiceRequestModel
 {
     private string $table;
@@ -125,4 +126,8 @@ class ServiceRequestModel
         return $this->conn->lastInsertId();
     }
 
+    public function addServiceOffer($data)
+    {
+
+    }
 }

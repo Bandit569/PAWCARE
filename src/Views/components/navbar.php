@@ -3,7 +3,7 @@
         <span class="material-symbols-outlined">menu</span>
     </button>
     <div class="logo">
-        <a href="/PAWCARE/">
+        <a href="/">
             <img style="height:56px; width:auto;" src="/PAWCARE/public/images/Logo.png" alt="Logo">
         </a>
     </div>
@@ -27,8 +27,7 @@
         </li>
         <li><a href="/contact">Contact</a></li>
     </ul>
-    <button id="login-btn" onclick="location.href='/PAWCARE/login'">Login</button>
-    <button id="profile-btn" style="display: none;" class="sidebar-toggle" id="sidebar-toggle">
+    <button class="sidebar-toggle" id="sidebar-toggle">
         <span class="material-symbols-outlined">account_circle</span>
     </button>
 
@@ -36,7 +35,6 @@
 
 <div class="sidebar" id="sidebar">
     <div class="profile">
-
         <img src="https://via.placeholder.com/80" alt="Profile Picture">
         <h3>John Doe</h3>
         <p>Pet Owner</p>
@@ -44,7 +42,6 @@
     <a href="#">Profile Settings</a>
     <a href="#">Manage Requests</a>
     <a href="#">Logout</a>
-
 </div>
 <script>
 
@@ -77,16 +74,17 @@
     linkFont.href = 'https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap';
     document.head.appendChild(linkFont);
 </script>
+
+
 <script>
-
-
-
 // toggle display of Login/Register with Profile button
     var username = "<?php echo $_SESSION['user_id']?>";
     if(username) {
         const isLoggedIn = true; // Set to false to simulate not logged in
     }
-    else isLoggedIn = false;
+    else {
+        isLoggedIn = false;
+    }
 
     // Get button elements
     const profileBtn = document.getElementById("profile-btn");
