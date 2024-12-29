@@ -53,10 +53,18 @@
   },
 
   {
-    "path" : "/register",
-    "controller" : "Register",
-    "action" : "",
+    "path" : "/Register",
+    "controller" : "UserController",
+    "action" : "registerForm",
     "method" : "GET",
+    "param" : []
+  },
+
+  {
+    "path" : "/Register",
+    "controller" : "RegisterController",
+    "action" : "registerUser",
+    "method" : "POST",
     "param" : []
   },
   {

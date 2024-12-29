@@ -1,3 +1,13 @@
+<?php
+// Start session (if not already started)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Check if user is logged in by verifying `user_id` in session
+$isLoggedIn = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
+?>
+
 <nav>
     <button class="menu-toggle">
         <span class="material-symbols-outlined">menu</span>
@@ -27,34 +37,52 @@
         </li>
         <li><a href="/contact">Contact</a></li>
     </ul>
-    <button id="login-btn" onclick="location.href='/PAWCARE/login'">Login</button>
-    <button id="profile-btn" style="display: none;" class="sidebar-toggle" id="sidebar-toggle">
-        <span class="material-symbols-outlined">account_circle</span>
-    </button>
 
+    <!-- Conditionally display Login or Profile buttons -->
+    <?php if (!$isLoggedIn): ?>
+        <!-- Show Login Button if NOT logged in -->
+        <button id="login-btn" onclick="location.href='/PAWCARE/login'">Login</button>
+    <?php else: ?>
+        <!-- Show Profile Button if logged in -->
+        <button id="sidebar-toggle" class="sidebar-toggle">
+            <span class="material-symbols-outlined">account_circle</span>
+        </button>
+    <?php endif; ?>
 </nav>
-
+<?php if ($isLoggedIn): ?>
 <div class="sidebar" id="sidebar">
     <div class="profile">
         <img src="https://via.placeholder.com/80" alt="Profile Picture">
-        <h3>John Doe</h3>
-        <p>Pet Owner</p>
+        <h3><?php echo htmlspecialchars($_SESSION['user']['name'] ?? ''); ?></h3> <!-- User name -->
+        <p><?php echo htmlspecialchars($_SESSION['user']['role'] ?? ''); ?></p> <!-- User role -->
+
     </div>
     <a href="#">Profile Settings</a>
     <a href="#">Manage Requests</a>
-    <a href="#">Logout</a>
+    <a href="/PAWCARE/logout">Logout</a>
 </div>
+<?php endif; ?>
 <script>
 
     // Toggle Sidebar visibility
-    const sidebar = document.getElementById('sidebar');
-    const menuToggle = document.getElementById('sidebar-toggle');
-    const content = document.getElementById('content');
+    // const sidebar = document.getElementById('sidebar');
+    // const menuToggle = document.getElementById('sidebar-toggle');
+    // const content = document.getElementById('content');
+    //
+    // // Toggle the sidebar popup on click
+    // menuToggle.addEventListener('click', () => {
+    //     sidebar.classList.toggle('open'); // Show/Hide the sidebar
+    // });
 
-    // Toggle the sidebar popup on click
-    menuToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('open'); // Show/Hide the sidebar
-    });
+    const sidebar = document.getElementById('sidebar');
+    const profileButton = document.getElementById('sidebar-toggle'); // Correct ID now used
+
+    // Only bind the event listener if elements exist
+    if (profileButton && sidebar) {
+        profileButton.addEventListener('click', () => {
+            sidebar.classList.toggle('open'); // Show/Hide the sidebar
+        });
+    }
 </script>
 
 <script>
@@ -76,36 +104,3 @@
     document.head.appendChild(linkFont);
 </script>
 
-
-<script>
-// toggle display of Login/Register with Profile button
-    var username = "<?php echo $_SESSION['user_id']?>";
-    if(username) {
-        const isLoggedIn = true; // Set to false to simulate not logged in
-    }
-    else {
-        isLoggedIn = false;
-    }
-
-    // Get button elements
-    const profileBtn = document.getElementById("profile-btn");
-    const loginBtn = document.getElementById("login-btn");
-
-    // Function to control button display
-    function controlButtonDisplay() {
-        if (isLoggedIn) {
-            // User is logged in: Show Profile button, hide Login/Register button
-            profileBtn.style.display = "block";
-            loginBtn.style.display = "none";
-        } else {
-            // User is NOT logged in: Show Login/Register button, hide Profile button
-            profileBtn.style.display = "none";
-            loginBtn.style.display = "block";
-        }
-    }
-
-    // Run the function on page load
-    controlButtonDisplay();
-
-
-</script>
