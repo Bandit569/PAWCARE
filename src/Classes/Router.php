@@ -59,11 +59,12 @@ class Router
     {
         $routeFound = array_filter($this->listRoute,function($route) use ($httpRequest){
             //echo $route->method . $httpRequest->getMethod();
-            return preg_match("#^/PAWCARE" . $route->path . "$#", $httpRequest->getUrl()) && $route->method == $httpRequest->getMethod();
+            return preg_match("#^/PAWCARE" . $route->path . "(\?.*)?$#", $httpRequest->getUrl()) && $route->method == $httpRequest->getMethod();
 
 
         });
         $numRoute = count($routeFound);
+
         if($numRoute > 1){
             throw new MultipleRouteFoundException();
         }

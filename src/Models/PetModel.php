@@ -32,3 +32,4 @@ class PetModel
             ':user_id' => $user_id,
         ]);
     }
+}

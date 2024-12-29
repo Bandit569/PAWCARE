@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var $lemoncake string our parameter name
+ */
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,10 +17,12 @@
 
 </head>
 
-
+<?php
+ echo $lemoncake;
+?>
 <body>
 <p>
-<form action="/RegisterController/store" method="POST">
+<form action="/PAWCARE/Register" method="POST">
     <label for="firstname">First Name</label>
     <input type="text" name="firstname" required>
 

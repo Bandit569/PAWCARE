@@ -17,7 +17,7 @@ class LoginController extends BaseController
             $userid = $_POST['username'];
             $password = $_POST['password'];
 
-            $authenticatedUser = $UserLoginModel->authenticateUser($userid);
+            $authenticatedUser = $UserLoginModel->authenticateUser((int)$userid);
 
             if ($authenticatedUser && $password == $authenticatedUser['password']) {
                 session_start();

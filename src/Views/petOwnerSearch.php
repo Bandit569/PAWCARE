@@ -25,216 +25,106 @@ use Entities\ServiceTypeEntity;
     <?php
     // Sample PHP array with listing data
     ?>
-    <script>
-        function f() {
-            // Use the listings data passed from PHP
-            const listingsData = <?php echo json_encode(array_map(function ($listing) {
-                return [
-                    'img' => 'placeholder.jpg', // Replace this with the appropriate image logic if available
-                    'alt' => $listing->getServiceType(),
-                    'name' => $listing->getUser()->getFirstName() . ' ' . $listing->getUser()->getLastName(),
-                    'description' => $listing->getDescription(),
-                    'price' => $listing->getPrice(),
-                    'review' => 'Placeholder review' // Replace this with actual review data if available
-                ];
-            }, $listings)); ?>;
 
-            const listingsContainer = document.querySelector('.list');
-
-            listingsData.forEach(listing => {
-                const listingDiv = document.createElement('div');
-                listingDiv.classList.add('listing');
-
-                listingDiv.innerHTML = `
-            <div class="info">
-                <img src="${listing.img}" alt="${listing.alt}">
-                <div>
-                    <h3>${listing.name}</h3>
-                    <p>${listing.description}</p>
-                    <p>From <strong>${listing.price}</strong></p>
-                </div>
-            </div>
-            <p>${listing.review}</p>
-        `;
-
-                listingsContainer.appendChild(listingDiv);
-            });
-        }
-
-    </script>
 </head>
-
-
-
 <body>
 
 <!-- Navigation -->
 <?php require_once (dirname(__DIR__).'\Views\components\navbar.php'); ?>
 <main>
-    <div class="container scrollable">
-        <!-- Sidebar Filters -->
-        <aside class="filters">
-            <h2>Service</h2>
-            <label>
-                <select>
-                    <?php
-                    if (!empty($services)) {
-                        foreach ($services as $service) {
-                            echo '<option>' . htmlspecialchars($service->getName()) . '</option>';
-                        }
-                    } else {
-                        echo '<option>No services available</option>';
-                    }
-
-                    ?>
-                </select>
-            </label>
-
-            <div class="search-container">
-                <label for="search-bar">
-                    <i class="material-icons">
-                        <h2>search</h2>
-                    </i>
-                </label>
-                <input type="text" id="search-bar" placeholder="Enter your town" readonly>
-            </div>
-
-            <!-- Popup Modal -->
-            <div id="popup" class="popup">
-                <div class="popup-content">
-                    <span class="close-btn">&times;</span>
-                    <h2>Search for your town</h2>
-                    <input type="text" id="popup-input" placeholder="Type to search...">
-                    <div id="popup-results"></div>
+    <div>
+        <section class="search-filters">
+            <h2>Search Filters</h2>
+            <form id="search-form">
+                <div class="form-group">
+                    <label for="town">Town:</label>
+                    <input type="text" id="town" name="town" placeholder="Enter town">
                 </div>
-            </div>
-            <script src="/PAWCARE/public/js/main.js"></script>
-
-            <h2>Dates</h2>
-            <input type="date" />
-
-
-            <label for="rangeInput"><h2>Price (EUR)</h2></label>
-            <input type="range" id="rangeInput" min="0" max="100" value="50">
-            <span id="rangeValue">50</span> <!-- Display the current value -->
-
+                <div class="form-group">
+                    <label for="country">Country:</label>
+                    <input type="text" id="country" name="country" placeholder="Enter country">
+                </div>
+                <div class="form-group">
+                    <label for="rating">Minimum Rating:</label>
+                    <select id="rating" name="rating">
+                        <option value="">Select rating</option>
+                        <option value="5">5 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="2">2 Stars</option>
+                        <option value="1">1 Star</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for = "order">Display order</label>
+                    <select id="order" name="order">
+                        <option value="1">Rating desc</option>
+                        <option value="2">Rating asc</option>
+                        <option value="3">Name asc</option>
+                        <option value="4">Name desc</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-search">Search</button>
+            </form>
+        </section>
+        <section class="results">
+            <h2>Caregivers Near You</h2>
             <script>
-                const rangeInput = document.getElementById('rangeInput');
-                const rangeValue = document.getElementById('rangeValue');
+                function f(){
+                    const listingsData = <?php echo json_encode(array_map(function ($listing) {
+                        return [
+                            'img' => 'placeholder.jpg', // Replace this with the appropriate image logic if available
+                            'alt' => $listing->getServiceType(),
+                            'name' => $listing->getUser()->getFirstName() . ' ' . $listing->getUser()->getLastName(),
+                            'review' => 'Placeholder review' // Replace this with actual review data if available
+                        ];
+                    }, $listings)); ?>;
 
-                // Update the value displayed when the range input changes
-                rangeInput.addEventListener('input', () => {
-                    rangeValue.textContent = rangeInput.value;
-                });
+                }
             </script>
-        </aside>
-    </div>
-        <!-- Main Listings -->
-        <div class="listings">
-            <div class = "list">
+            <div class="caregiver-grid">
+                <!-- Sample caregiver card -->
                 <script>
-                    f();
-                </script>
-                <!-- Map Section There is no map, don't ask why it's a map section, I made it, and I decided it would be called map section-->
-            </div>
+                    function f(){
+                        const listingsData = <?php echo json_encode(array_map(function ($listing) {
+                            return [
+                                    'img' => 'placeholder.jpg',
+                                'name' => $listing->getUser()->getFirstName() . ' ' . $listing->getUser()->getLastName(),
+                                'reviewAvrg' => $listing -> getUser()->getReviewAverage(),
+                                'country' => $listing -> getAddress()->getCountry(),
+                                'city' => $listing -> getAddress()->getTown(),
+                                'street' => $listing -> getAddress()->getStreet(),
+                                'LastRev' => $listing ->getUser() -> getLastReview()
+                            ];
+                    },$listings)); ?>;
 
-            <!-- Default image -->
-            <img src="/PAWCARE/public/Images/clc.webp"
-                 alt="Lemon Cakes My Love"
-                 class="map-image"
-                 style="width: 100%; height: 100%; object-fit: cover; /* Scales the image to cover the container */">
-            <!-- Listing details -->
-            <div class="listing-details hidden">
-                <!-- Header Section -->
-                <div class="header-section">
-                    <img id="detailsImg" src="" alt="Caretaker Image" class="caretaker-image" />
-                    <div class="header-info">
-                        <h2 id="detailsName">Caretaker Name</h2>
-                        <p id="detailsReviewAverage">Review Average: ★★★★☆</p>
+                        const listingsContainer = document.querySelector(".listingsContainer")
+                        listingsData.foreach(listing => {
+                            //Container for 1 listing
+                            const listingDiv = document.createElement("div")
+                            listingDiv.classList.add('caregiver-card')
+
+                            const userImg = .createElement("img")
+                        })
+                    }
+                </script>
+                <div class = "listingsContainer">
+
+                </div>
+                <div class="caregiver-card">
+                    <img src="placeholder.jpg" alt="Caregiver Photo" class="caregiver-photo">
+                    <div class="caregiver-info">
+                        <h3>John Doe</h3>
+                        <p>Location: London, UK</p>
+                        <p>Rating: ★★★★☆</p>
+                        <p>Specializes in: Dogs, Cats</p>
                     </div>
                 </div>
-
-                <!-- About Section -->
-                <section class="about-section">
-                    <h3>About</h3>
-                    <p id="detailsAbout">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.</p>
-                </section>
-
-                <!-- Offers Section -->
-                <section class="offers-section">
-                    <h3>Offers & Services</h3>
-                    <div class="services">
-                        <h4>Services</h4>
-                        <ul id="servicesList">
-                            <!-- List of services will go here -->
-                        </ul>
-                    </div>
-                    <div class="animals-handled">
-                        <h4>Animals Handled</h4>
-                        <ul id="animalsList">
-                            <!-- List of animals the caretaker handles will go here -->
-                        </ul>
-                    </div>
-                </section>
-
-                <!-- Availability Section -->
-                <section class="availability-section">
-                    <h3>Availability</h3>
-                    <div class="calendar-container">
-                        <div class="calendar-header">
-                            <button id="prevMonth">&lt;</button>
-                            <h2 id="monthYear">Month Year</h2>
-                            <button id="nextMonth">&gt;</button>
-                        </div>
-                        <div class="calendar-legend">
-                            <span class="available">Available</span>
-                            <span class="not-available">Not available</span>
-                        </div>
-                        <div class="calendar-days">
-                            <div class="days-row">
-                                <div>Mon</div>
-                                <div>Tue</div>
-                                <div>Wed</div>
-                                <div>Thu</div>
-                                <div>Fri</div>
-                                <div>Sat</div>
-                                <div>Sun</div>
-                            </div>
-                            <div id="calendarGrid" class="days-grid"></div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Booking Section -->
-                <section class="booking-section">
-                    <h3>Book a Service</h3>
-                    <form>
-                        <label for="serviceChoice">Choose a service:</label>
-                        <select id="serviceChoice">
-                            <!-- Options will be populated dynamically -->
-                        </select>
-
-                        <p>Price: <span id="detailsPrice">€0</span></p>
-
-                        <label for="chosenDate">Choose a date:</label>
-                        <input type="date" id="chosenDate">
-
-                        <button type="button" onclick="contactCaretaker()">Contact Caretaker</button>
-                    </form>
-                </section>
-
-                <!-- Reviews Section -->
-                <section class="reviews-section">
-                    <h3>Reviews</h3>
-                    <ul id="reviewsList">
-                        <!-- List of reviews will go here -->
-                    </ul>
-                </section>
+                <!-- Additional cards will go here -->
             </div>
-
-
-            <script src="/PAWCARE/public/js/petOwnerSearch.js"></script>
-        </div>
+        </section>
+    </div>
+    <script src="/PAWCARE/public/js/petOwnerSearch.js"></script>
 </main>
 </body>
 </html>

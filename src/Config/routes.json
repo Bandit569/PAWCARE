@@ -54,8 +54,8 @@
 
   {
     "path" : "/register",
-    "controller" : "Register",
-    "action" : "",
+    "controller" : "RegisterController",
+    "action" : "store",
     "method" : "GET",
     "param" : []
   },
@@ -65,5 +65,12 @@
     "action": "submitOffer",
     "method": "GET",
     "param": []
+  },
+  {
+    "path" : "/register",
+    "controller" : "RegisterController",
+    "action" : "deleteid",
+    "method" : "DELETE",
+    "param" : []
   }
 ]

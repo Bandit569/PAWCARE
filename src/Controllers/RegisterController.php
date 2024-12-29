@@ -22,4 +22,9 @@ class RegisterController extends BaseController
 
         }
     }
+
+    public function deleteid(){
+        $this -> view('register');
+        $this -> addParam('lemoncake',$_GET['id']);
+}
 }

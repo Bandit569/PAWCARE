@@ -31,7 +31,7 @@ class UserModel
         ]);
     }
 
-    public function authenticateUser($userid)
+    public function authenticateUser(int $userid)
     {
         $sql = "SELECT * FROM user_details WHERE user_id =:user_id";
         $stmt = $this->conn->query($sql, [':user_id' => $userid]);

@@ -24,7 +24,7 @@
         </div>
         <div class="hero-text">
             <h1>Login to PawCare</h1>
-            <form action="/Login" method="POST">
+            <form action="/PAWCARE/login" method="POST">
                 <label for="username">Username</label>
                 <input type="username" name="username" id="username" required>
 

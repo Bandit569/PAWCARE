@@ -15,6 +15,11 @@ class AddressModel
         $this->table = "address";
     }
 
+
+    /**
+     * @param int $id id of the address to fetch
+     * @return AddressEntity|null returns an object of type AddressEntity (cf /Entities/AddressEntity)
+     */
     public function getAddressById(int $id): ?AddressEntity{
         $query = "SELECT * FROM $this->table WHERE addressID = :id";
         $stmt = $this->conn->prepare($query);
