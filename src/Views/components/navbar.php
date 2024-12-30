@@ -4,8 +4,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Check if user is logged in by verifying `user_id` in session
-$isLoggedIn = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
+// Check if user is logged in by verifying 'user_id' in session
+$isLoggedIn = isset($_SESSION['user']['id']) && !empty($_SESSION['user']['id']);
 ?>
 
 <nav>
@@ -23,12 +23,11 @@ $isLoggedIn = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
         <li class="dropdown">
             <a href="#" class="dropbtn">Find a Caretaker</a>
             <ul class="dropdown-content">
-                <li><a class = "drop-down-a" href="/PAWCARE/Request">Post a Request</a></li>
-                <li><a class = "drop-down-a" href="/PAWCARE/petOwnerSearch">Search for a Caretaker</a></li>
+                <li><a class="drop-down-a" href="/PAWCARE/Request">Post a Request</a></li>
+                <li><a class="drop-down-a" href="/PAWCARE/petOwnerSearch">Search for a Caretaker</a></li>
             </ul>
         </li>
         <li class="dropdown">
-
             <a href="#" class="dropbtn">Become a Caretaker</a>
             <ul class="dropdown-content">
                 <li><a href="/PAWCARE/Offers">Post an Offer</a></li>
@@ -46,61 +45,40 @@ $isLoggedIn = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
         <!-- Show Profile Button if logged in -->
         <button id="sidebar-toggle" class="sidebar-toggle">
             <span class="material-symbols-outlined">account_circle</span>
+            <span class="username">
+                <?php echo htmlspecialchars($_SESSION['user']['first_name'] ?? 'User'); ?>
+            </span>
         </button>
     <?php endif; ?>
 </nav>
+
+<!-- Sidebar for Logged-in User -->
 <?php if ($isLoggedIn): ?>
-<div class="sidebar" id="sidebar">
-    <div class="profile">
-        <img src="https://via.placeholder.com/80" alt="Profile Picture">
-        <h3><?php echo htmlspecialchars($_SESSION['user']['name'] ?? ''); ?></h3> <!-- User name -->
-        <p><?php echo htmlspecialchars($_SESSION['user']['role'] ?? ''); ?></p> <!-- User role -->
+    <div class="sidebar" id="sidebar">
+        <div class="profile">
+            <img src="https://via.placeholder.com/80" alt="Profile Picture">
+            <!-- Display the logged-in user’s name -->
+            <h3><?php echo htmlspecialchars($_SESSION['user']['first_name'] ?? 'User'); ?></h3>
 
+            <!-- Optional: Display user role -->
+<!--            <p>--><?php //echo htmlspecialchars($_SESSION['user']['role'] ?? ''); ?><!--</p>-->
+        </div>
+        <!-- Sidebar Links -->
+        <a href="/PAWCARE/profile-settings">Profile Settings</a>
+        <a href="/PAWCARE/manage-requests">Manage Requests</a>
+        <a href="/PAWCARE/logout">Logout</a>
     </div>
-    <a href="#">Profile Settings</a>
-    <a href="#">Manage Requests</a>
-    <a href="/PAWCARE/logout">Logout</a>
-</div>
 <?php endif; ?>
+
 <script>
-
-    // Toggle Sidebar visibility
-    // const sidebar = document.getElementById('sidebar');
-    // const menuToggle = document.getElementById('sidebar-toggle');
-    // const content = document.getElementById('content');
-    //
-    // // Toggle the sidebar popup on click
-    // menuToggle.addEventListener('click', () => {
-    //     sidebar.classList.toggle('open'); // Show/Hide the sidebar
-    // });
-
+    // Sidebar toggle functionality
     const sidebar = document.getElementById('sidebar');
-    const profileButton = document.getElementById('sidebar-toggle'); // Correct ID now used
+    const profileButton = document.getElementById('sidebar-toggle');
 
     // Only bind the event listener if elements exist
     if (profileButton && sidebar) {
         profileButton.addEventListener('click', () => {
-            sidebar.classList.toggle('open'); // Show/Hide the sidebar
+            sidebar.classList.toggle('open'); // Toggle sidebar visibility
         });
     }
 </script>
-
-<script>
-
-    const linkPreconnect1 = document.createElement('link');
-    linkPreconnect1.rel = 'preconnect';
-    linkPreconnect1.href = 'https://fonts.googleapis.com';
-    document.head.appendChild(linkPreconnect1);
-
-    const linkPreconnect2 = document.createElement('link');
-    linkPreconnect2.rel = 'preconnect';
-    linkPreconnect2.href = 'https://fonts.gstatic.com';
-    linkPreconnect2.crossOrigin = 'anonymous'; // Add crossorigin attribute
-    document.head.appendChild(linkPreconnect2);
-
-    const linkFont = document.createElement('link');
-    linkFont.rel = 'stylesheet';
-    linkFont.href = 'https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap';
-    document.head.appendChild(linkFont);
-</script>
-

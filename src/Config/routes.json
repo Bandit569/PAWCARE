@@ -23,6 +23,13 @@
     ]
   },
   {
+    "path" : "/logout",
+    "controller" : "LogoutController",
+    "action" : "logout",
+    "method" : "GET",
+    "param" : []
+  },
+  {
     "path" : "/MyError",
     "controller" : "MyError",
     "action" : "Show",
