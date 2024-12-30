@@ -40,7 +40,7 @@
 </div>
 
 <?php require_once (dirname(__DIR__).'\Views\components\footer.php'); ?>
-
+<!-- adding a comment to check if commit works now -->
 </body>
 </html>
 
