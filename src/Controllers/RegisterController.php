@@ -24,6 +24,7 @@ class RegisterController extends BaseController
             $usertype = $_POST['role'];
             $lastInsertedUserId = $UserRegisterModel->registerUser($firstname, $lastname, $email, $contactno, $username, $password, $usertype);
             if ($lastInsertedUserId) {
+                //echo "Registration successful. Please login.";
                 $this -> view('login');
             } else {
                 echo "Registration failed. Please try again.";

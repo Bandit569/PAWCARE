@@ -21,16 +21,16 @@ $isLoggedIn = isset($_SESSION['user']['id']) && !empty($_SESSION['user']['id']);
         <li><a href="/PAWCARE">Home</a></li>
         <li><a href="/services">Services</a></li>
         <li class="dropdown">
-            <a href="#" class="dropbtn">Find a Caretaker</a>
+            <a href="#" class="dropbtn">Pet Owners</a>
             <ul class="dropdown-content">
-                <li><a class="drop-down-a" href="/PAWCARE/Request">Post a Request</a></li>
+                <li><a class="drop-down-a" href="/PAWCARE/LoadRequest">Post a Request</a></li>
                 <li><a class="drop-down-a" href="/PAWCARE/petOwnerSearch">Search for a Caretaker</a></li>
             </ul>
         </li>
         <li class="dropdown">
-            <a href="#" class="dropbtn">Become a Caretaker</a>
+            <a href="#" class="dropbtn">Caretakers</a>
             <ul class="dropdown-content">
-                <li><a href="/PAWCARE/Offers">Post an Offer</a></li>
+                <li><a href="/PAWCARE/LoadOffer">Post an Offer</a></li>
                 <li><a href="/pet-owners">Look for Pet Owners in Need</a></li>
             </ul>
         </li>

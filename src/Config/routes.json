@@ -45,14 +45,15 @@
     "param" : []
   },
   {
-    "path" : "/Request",
+    "path" : "/LoadRequest",
     "controller" : "ServiceRequestController",
-    "action" : "submitRequest",
+    "action" : "renderRequestForm",
     "method" : "GET",
     "param" : []
   },
+
   {
-    "path": "/Request",
+    "path": "/submitRequest",
     "controller": "ServiceRequestController",
     "action": "submitRequest",
     "method": "POST",
@@ -75,10 +76,24 @@
     "param" : []
   },
   {
-    "path": "/Offers",
-    "controller": "ServiceOfferController",
-    "action": "submitOffer",
+    "path": "/LoadOffer",
+    "controller": "ServiceRequestController",
+    "action": "renderOfferForm",
     "method": "GET",
+    "param": []
+  },
+  {
+    "path": "/submitOffer",
+    "controller": "ServiceRequestController",
+    "action": "submitOffer",
+    "method": "POST",
+    "param": []
+  },
+  {
+    "path": "/RegisterPet",
+    "controller": "ServiceRequestController",
+    "action": "addPet",
+    "method": "POST",
     "param": []
   }
 ]
