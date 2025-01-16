@@ -2,6 +2,8 @@
 
 namespace Entities;
 
+use Models\RatingModel;
+
 class UserEntity
 {
     private int $id;
@@ -44,5 +46,16 @@ class UserEntity
     }
     public function getContactNumber(): int{
         return $this->contactNumber;
+    }
+    public function getPetOwnerReviewAverage(): int{
+        $ratingModel = new RatingModel();
+
+        return $ratingModel -> getPetOwnerReviewAverageById($this->id);
+    }
+
+    public function getLastReview(): ?RatingEntity
+    {
+        $ratingModel = new RatingModel();
+        return $ratingModel -> getLastReviewByRatedId($this->id);
     }
 }

@@ -3,8 +3,7 @@
 
 namespace Classes;
 
-require_once(dirname(__FILE__)."/Exceptions/MultipleRouteFoundException.php");
-require_once(dirname(__FILE__)."/Exceptions/NoRouteFoundException.php");
+
 
 use Classes\Exceptions\MultipleRouteFoundException;/**
  * Class MultipleRouteFoundException
@@ -57,23 +56,25 @@ class Router
      */
     public function findRoute(HttpRequest $httpRequest): Route
     {
-        $routeFound = array_filter($this->listRoute,function($route) use ($httpRequest){
-            //echo $route->method . $httpRequest->getMethod();
-            return preg_match("#^/PAWCARE" . $route->path . "(\?.*)?$#", $httpRequest->getUrl()) && $route->method == $httpRequest->getMethod();
+        // Extract just the path from the URL
+        $urlPath = parse_url($httpRequest->getUrl(), PHP_URL_PATH);
 
-
+        // Filter routes based on the path and HTTP method
+        $routeFound = array_filter($this->listRoute, function($route) use ($httpRequest, $urlPath) {
+            return $urlPath === "/PAWCARE" . $route->path && $route->method == $httpRequest->getMethod();
         });
+
         $numRoute = count($routeFound);
 
-        if($numRoute > 1){
+        // Handle the number of matches
+        if ($numRoute > 1) {
             throw new MultipleRouteFoundException();
-        }
-        else if($numRoute == 0){
+        } elseif ($numRoute == 0) {
             throw new NoRouteFoundException();
-        }
-        else{
-            $matchedroute = reset($routeFound);
-            return new Route($matchedroute);
+        } else {
+            $matchedRoute = reset($routeFound);
+            return new Route($matchedRoute);
         }
     }
+
 }

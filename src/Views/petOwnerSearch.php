@@ -9,6 +9,9 @@
 
 use Entities\ServiceTypeEntity;
 
+
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,14 +38,14 @@ use Entities\ServiceTypeEntity;
     <div>
         <section class="search-filters">
             <h2>Search Filters</h2>
-            <form id="search-form">
+            <form id="search-form" method="GET" action="PAWCARE/petOwnerSearch">
                 <div class="form-group">
                     <label for="town">Town:</label>
-                    <input type="text" id="town" name="town" placeholder="Enter town">
+                    <input type="text" id="town" name="town" placeholder="Enter town" maxlength="50" aria-label="Town">
                 </div>
                 <div class="form-group">
                     <label for="country">Country:</label>
-                    <input type="text" id="country" name="country" placeholder="Enter country">
+                    <input type="text" id="country" name="country" placeholder="Enter country" maxlength="50" aria-label="Country">
                 </div>
                 <div class="form-group">
                     <label for="rating">Minimum Rating:</label>
@@ -69,49 +72,40 @@ use Entities\ServiceTypeEntity;
         </section>
         <section class="results">
             <h2>Caregivers Near You</h2>
-            <script>
-                function f(){
-                    const listingsData = <?php echo json_encode(array_map(function ($listing) {
-                        return [
-                            'img' => 'placeholder.jpg', // Replace this with the appropriate image logic if available
-                            'alt' => $listing->getServiceType(),
-                            'name' => $listing->getUser()->getFirstName() . ' ' . $listing->getUser()->getLastName(),
-                            'review' => 'Placeholder review' // Replace this with actual review data if available
-                        ];
-                    }, $listings)); ?>;
 
-                }
-            </script>
+
             <div class="caregiver-grid">
                 <!-- Sample caregiver card -->
                 <script>
-                    function f(){
-                        const listingsData = <?php echo json_encode(array_map(function ($listing) {
-                            return [
-                                    'img' => 'placeholder.jpg',
-                                'name' => $listing->getUser()->getFirstName() . ' ' . $listing->getUser()->getLastName(),
-                                'reviewAvrg' => $listing -> getUser()->getReviewAverage(),
-                                'country' => $listing -> getAddress()->getCountry(),
-                                'city' => $listing -> getAddress()->getTown(),
-                                'street' => $listing -> getAddress()->getStreet(),
-                                'LastRev' => $listing ->getUser() -> getLastReview()
-                            ];
-                    },$listings)); ?>;
 
-                        const listingsContainer = document.querySelector(".listingsContainer")
-                        listingsData.foreach(listing => {
-                            //Container for 1 listing
-                            const listingDiv = document.createElement("div")
-                            listingDiv.classList.add('caregiver-card')
 
-                            const userImg = .createElement("img")
-                        })
-                    }
                 </script>
                 <div class = "listingsContainer">
+                    <script>
+                        const listingsData = <?php
+                            echo json_encode(array_map(function ($listing) {
+                                return [
+                                    'img' => 'placeholder.jpg',
+                                    'name' => $listing->getUser()->getFirstName() . ' ' . $listing->getUser()->getLastName(),
+                                    'reviewAvrg' => $listing->getUser()->getPetOwnerReviewAverage() ?? 0,
+                                    'country' => $listing->getAddress()->getCountry() ?? 'Unknown',
+                                    'city' => $listing->getAddress()->getTown() ?? 'Unknown',
+                                    'street' => $listing->getAddress()->getStreet() ?? 'Unknown',
+                                    'lastRev' => $listing->getUser()->getLastReview()?->getComment() ?? 'No reviews available'
+                                ];
+                            }, $listings), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
+                            ?>;
+                    </script>
+                    <script src="/PAWCARE/public/js/petOwnerSearch.js"></script>
+                    <script>
+                        f13(listingsData); // Ensure the function is called after the external script is loaded
+                    </script>
+
 
                 </div>
-                <div class="caregiver-card">
+
+
+                <!--<div class="caregiver-card">
                     <img src="placeholder.jpg" alt="Caregiver Photo" class="caregiver-photo">
                     <div class="caregiver-info">
                         <h3>John Doe</h3>
@@ -120,11 +114,11 @@ use Entities\ServiceTypeEntity;
                         <p>Specializes in: Dogs, Cats</p>
                     </div>
                 </div>
-                <!-- Additional cards will go here -->
+                 Additional cards will go here -->
             </div>
         </section>
     </div>
-    <script src="/PAWCARE/public/js/petOwnerSearch.js"></script>
+
 </main>
 </body>
 </html>

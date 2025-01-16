@@ -12,7 +12,7 @@ class AddressModel
     public function __construct()
     {
         $this->conn = DatabaseConnection::getInstance();
-        $this->table = "address";
+        $this->table = "addresses";
     }
 
 
@@ -21,20 +21,21 @@ class AddressModel
      * @return AddressEntity|null returns an object of type AddressEntity (cf /Entities/AddressEntity)
      */
     public function getAddressById(int $id): ?AddressEntity{
-        $query = "SELECT * FROM $this->table WHERE addressID = :id";
+        $query = "SELECT * FROM $this->table WHERE address_id = :id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-
-        $stmt->bindColumn('addressID', $addressId);
-        $stmt->bindColumn('flatNo', $flatNo);
-        $stmt->bindColumn('street', $street);
-        $stmt->bindColumn('town', $town);
-        $stmt->bindColumn('country', $country);
-        $stmt->bindColumn('userID', $userId);
-
-        if($stmt -> fetch(PDO::FETCH_BOUND)){
-            return new AddressEntity($addressId, $flatNo, $street, $town, $country, $userId);
+        $stmt->bindColumn('address_id', $addressId);
+        $stmt->bindColumn('address_flat_no', $flatNo);
+        $stmt->bindColumn('address_street', $street);
+        $stmt->bindColumn('address_town', $town);
+        $stmt->bindColumn('address_country', $country);
+        $stmt->bindColumn('address_user_id', $userId);
+        if($stmt->execute()){
+            if($stmt -> fetch(PDO::FETCH_BOUND)){
+                return new AddressEntity($addressId, $flatNo, $street, $town, $country, $userId);
+            }
         }
+
         return null;
     }
 }

@@ -17,13 +17,25 @@ class petOwnerSearch extends BaseController
      */
     function petOwnerSearch(): void
     {
+        $filters = array();
 
-         $serviceRequestModel = new ServiceRequestModel();
-         $listings = $serviceRequestModel -> PetOwnerSearchGetter();
-         $ServiceTypeModel = new ServiceTypeModel();
-         $serviceTypes = $ServiceTypeModel -> getServiceTypes();
-         $this-> addParam("services", $serviceTypes);
-         $this -> addParam("listings", $listings);
+        if (isset($_GET["country"])) {
+            $filters["country"] = $_GET["country"];
+        }
+        if (isset($_GET["town"])) {
+            $filters["town"] = $_GET["town"];
+        }
+        if (isset($_GET["order"])) {
+            $filters["order"] = $_GET["order"];
+        }
+        if (isset($_GET["rating"])) {
+            $filters["rating"] = $_GET["rating"];
+        }
+
+
+
+
+
          $this->view("petOwnerSearch");
     }
 }

@@ -61,6 +61,7 @@ class Httprequest
                         $this->_param[] = $matches[$i];
                     }
                 }
+                break;  // Add break here
             case "POST":
             case "PUT":
                 foreach ($this->_route->getParam() as $param) {
@@ -68,6 +69,8 @@ class Httprequest
                         $this->_param[] = $_POST[$param];
                     }
                 }
+                break;  // Add break here
         }
     }
+
 }

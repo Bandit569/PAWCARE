@@ -2,25 +2,26 @@
 
 namespace Entities;
 
-use MongoDB\BSON\Timestamp;
+
 
 class RatingEntity
 {
     private int $id;
     private int $rating;
     private string $comment;
-    private int $rater_id;
-    private int $rated_id;
-    private Timestamp $timestamp;
+
+    private int $serviceRequestId;
+    private \DateTime $timestamp;
+
+
 
     private string $type;
-    public function __construct(int $id, int $rating, string $comment, int $rater_id, int $rated_id, Timestamp $timestamp, $type){
+    public function __construct(int $id, int $rating, string $comment,int $serviceRequestId, \DateTime $timestamp){
         $this->id = $id;
         $this->rating = $rating;
         $this->comment = $comment;
-        $this->rater_id = $rater_id;
-        $this->rated_id = $rated_id;
         $this->timestamp = $timestamp;
+        $this->serviceRequestId = $serviceRequestId;
     }
     public function getId(): int
     {
@@ -30,21 +31,21 @@ class RatingEntity
     {
         return $this->rating;
     }
+    /**
+     * @return int
+     */public function getServiceRequestId(): int
+{
+    return $this->serviceRequestId;
+}
     public function getComment(): string
     {
         return $this->comment;
     }
-    public function getRaterId(): int
-    {
-        return $this->rater_id;
-    }
-    public function getRatedId(): int
-    {
-        return $this->rated_id;
-    }
-    public function getTimestamp(): Timestamp
+
+    public function getTimestamp(): \DateTime
     {
         return $this->timestamp;
     }
+
 
 }

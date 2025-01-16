@@ -5,6 +5,8 @@ namespace Models;
 use DateTime;
 use Entities\AddressEntity;
 use Entities\ServiceRequestEntity;
+use Entities\UserEntity;
+use Entities\UserTypeEntity;
 use PDO;
 
 
@@ -36,6 +38,7 @@ class ServiceRequestModel
         $addressModel = new AddressModel();
         $date2 = new DateTime($date);
         $address  = $addressModel -> getAddressById($addressId);
+
         if(!isset($address)){
             $address = new AddressEntity($addressId,0,"ERROR","ERROR","ERROR",$userId);
         }
@@ -46,16 +49,27 @@ class ServiceRequestModel
         return null;
     }
 
-    public function PetOwnerSearchGetter(): array
+    public function PetOwnerSearchGetter($filters): array
     {
-        $stmt = $this->conn->prepare("SELECT * FROM $this->table WHERE acceptor_id IS NULL AND request_type != :excludedType");
+        $stmt = $this->conn->prepare($this -> buildSearchQuery($filters));
         $excludedType = 1; // Service request type to exclude
         $stmt->bindParam(':excludedType', $excludedType, PDO::PARAM_INT);
+        if(isset($filters['country'])){
+            $stmt->bindParam(':country', $filters['country']);
+        }
+        if(isset($filters['town'])){
+            $stmt->bindParam(':town', $filters['town']);
+        }
+        if(isset($filters['rating'])){
+            $stmt->bindParam(':rating', $filters['rating']);
+        }
+
         $stmt->execute();
 
         $serviceRequests = [];
 
         // Bind columns to PHP variables
+
         $stmt -> bindColumn("service_request_id", $id);
         $stmt -> bindColumn("user_id",$userId);
         $stmt -> bindColumn("service_type_id",$serviceTypeId);
@@ -64,8 +78,6 @@ class ServiceRequestModel
         $stmt -> bindColumn("request_status",$status);
         $stmt -> bindColumn("address_id",$addressId);
         $stmt -> bindColumn("acceptor_id",$acceptorId);
-        $stmt -> bindColumn("price",$price);
-        $stmt -> bindColumn("description",$description);
 
         $addressModel = new AddressModel();;
         $date2 = new DateTime($date);
@@ -77,12 +89,12 @@ class ServiceRequestModel
             $usere = $Userm -> getUserById($userId);
 
 
+
             $address = $addressModel->getAddressById($addressId);
+            echo $addressId;
+            var_dump($address);
             if(!isset($address)){
                 $address = new AddressEntity($addressId,0,"ERROR","ERROR","ERROR",$userId);
-            }
-            if(!isset($description)){
-                $description = "No Description provided";
             }
 
 
@@ -95,11 +107,10 @@ class ServiceRequestModel
                 $requestTypeId,
                 $serviceTypeId,
                 $address,
-                $description,
-                $price,
                 $usere,
             );
         }
+
 
         return $serviceRequests;
     }
@@ -129,5 +140,66 @@ class ServiceRequestModel
     public function addServiceOffer($data)
     {
 
+    }
+
+    /**
+     * @param array $filters
+     * @return string
+     *
+     * @TODO work out the correct SQL query for this madness
+     */
+    function buildSearchQuery(array $filters): string
+    {
+        $query = "select sr.service_request_id, sr.request_type, sr.date, sr.request_status, sr.user_id, sr.acceptor_id, sr.service_type_id, sr.address_id";
+        $from ="\nFrom service_request sr";
+        $join = "\njoin rating r on sr.service_request_id = r.service_request_id";
+        $where = "\nWHERE request_type != :excludedType";
+
+        $params = [];
+
+        // Add filters
+        if (!empty($filters['town'])) {
+            $join .= "\njoin addresses a on sr.user_id = a.address_user_id";
+            $where .= " AND a.address_town LIKE :town";
+            //$params[':town'] = '%' . $filters['town'] . '%'; // Allow partial matches
+        }
+
+        if (!empty($filters['country'])) {
+            $join .= "\njoin addresses a on sr.user_id = a.address_user_id";
+            $where .= " AND a.address_country = :country";
+            //$params[':country'] = $filters['country'];
+        }
+
+        if (!empty($filters['rating'])) {
+            $query .= " AND r.rating >= :rating";
+            //$params[':rating'] = (int) $filters['rating'];
+        }
+        $query .= $from.$join.$where;
+        // Sorting
+        if (!empty($filters['order'])) {
+            switch ($filters['order']) {
+                case 1:
+                    $query .= " ORDER BY r.rating DESC";
+                    break;
+                case 2:
+                    $query .= " ORDER BY r.rating ASC";
+                    break;
+                case 3:
+                    $join.= "\njoin user_details ud on ud.user_id = r.user_id";
+                    $query .= " ORDER BY ud.username ASC";
+                    break;
+                case 4:
+                    $join.= "\njoin user_details ud on ud.user_id = r.user_id";
+                    $query .= " ORDER BY ud.username DESC";
+                    break;
+            }
+
+        }
+        else{
+            $query .= " ORDER BY r.rating DESC";
+        }
+
+
+        return $query;
     }
 }

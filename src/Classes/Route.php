@@ -63,7 +63,7 @@ class Route
 
     public function run($httpRequest,$config): void
     {
-        $controller = null;
+        $_controller = null;
         $controllerName = $this->_controller;
         //include_once(dirname(__DIR__)."/Controllers/".$controllerName.".php");
         if(class_exists("\\Controllers\\".$controllerName))

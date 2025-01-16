@@ -1,101 +1,64 @@
-// calendar.js
-
-const monthYear = document.getElementById("monthYear");
-const calendarGrid = document.getElementById("calendarGrid");
-const prevMonth = document.getElementById("prevMonth");
-const nextMonth = document.getElementById("nextMonth");
-
-let currentDate = new Date();
-
-function renderCalendar(date) {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const firstDay = new Date(year, month, 1).getDay(); // Day of the week (0 = Sunday, 1 = Monday, etc.)
-    const lastDate = new Date(year, month + 1, 0).getDate(); // Last day of the month
-
-    // Adjust for Monday start (shift 0 (Sunday) -> 6, 1 -> 0, etc.)
-    const adjustedFirstDay = (firstDay === 0) ? 6 : firstDay - 1;
-
-    // Update header
-    const monthNames = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
-    monthYear.textContent = `${monthNames[month]} ${year}`;
-
-    // Clear grid
-    calendarGrid.innerHTML = "";
-
-    // Fill empty slots before the first day of the month
-    for (let i = 0; i < adjustedFirstDay; i++) {
-        const emptySlot = document.createElement("div");
-        emptySlot.className = "day not-available";
-        calendarGrid.appendChild(emptySlot);
+function f13(data) {
+    // Ensure data is an array
+    if (!Array.isArray(data)) {
+        console.error("Invalid data: Expected an array.");
+        return;
     }
 
-    // Fill days of the month
-    for (let day = 1; day <= lastDate; day++) {
-        const dayElement = document.createElement("div");
-        dayElement.textContent = day;
-        dayElement.className = "day available";
-        calendarGrid.appendChild(dayElement);
-
-        // Mark unavailable days for testing
-        if (Math.random() < 0.3) {
-            dayElement.className = "day not-available";
-        }
+    // Get the container for listings
+    const listingsContainer = document.querySelector(".listingsContainer");
+    if (!listingsContainer) {
+        console.error("Error: .listingsContainer element not found.");
+        return;
     }
-}
 
-// Event listeners for navigation
-prevMonth.addEventListener("click", () => {
-    currentDate.setMonth(currentDate.getMonth() - 1);
-    renderCalendar(currentDate);
-});
+    // Clear existing content (optional, if refreshing the container)
+    listingsContainer.innerHTML = "";
 
-nextMonth.addEventListener("click", () => {
-    currentDate.setMonth(currentDate.getMonth() + 1);
-    renderCalendar(currentDate);
-});
+    // Process each listing in the data array
+    data.forEach(listing => {
+        // Create a card for the caregiver
+        const listingDiv = document.createElement("div");
+        listingDiv.classList.add('caregiver-card');
 
-// Initial render
-renderCalendar(currentDate);
+        // Add user image
+        const userImg = document.createElement("img");
+        userImg.src = listing.img || "placeholder.jpg"; // Default image if not provided
+        userImg.alt = "Profile Image";
 
+        // Add user name
+        const userName = document.createElement("p");
+        userName.textContent = listing.name || "Unknown Name";
 
-document.querySelectorAll('.listing').forEach(listingDiv => {
-    listingDiv.addEventListener('click', function () {
-        const mapContainer = document.querySelector('.map');
-        const mapImage = document.querySelector('.map-image');
-        const listingDetails = document.querySelector('.listing-details');
+        // Add location details
+        const country = document.createElement("p");
+        country.textContent = `Country: ${listing.country || "Unknown"}`;
 
-        // Extract data from the clicked listing
-        const imgSrc = this.querySelector('img').getAttribute('src');
-        const name = this.querySelector('h3').innerText;
-        const description = this.querySelector('p').innerText;
-        const price = this.querySelector('strong').innerText;
-        const review = this.querySelectorAll('p')[1].innerText;
+        const city = document.createElement("p");
+        city.textContent = `City: ${listing.city || "Unknown"}`;
 
-        // Populate the details section
-        /*
-        document.getElementById('detailsImg').src = imgSrc;
-        document.getElementById('detailsName').innerText = name;
-        document.getElementById('detailsDescription').innerText = description;
-        document.getElementById('detailsPrice').innerText = price;
-        document.getElementById('detailsReview').innerText = review;
-        */
-        // Hide the default image and show the details
-        listingDetails.classList.remove('hidden');
-        mapImage.classList.add('hidden');
+        const street = document.createElement("p");
+        street.textContent = listing.street || "No Street Info";
+
+        // Add review average with stars
+        const reviewAvrg = document.createElement("p");
+        let stars = "Rating: ";
+        const rating = Math.min(Math.max(parseInt(listing.reviewAvrg) || 0, 0), 5); // Ensure rating is between 0 and 5
+        stars += "★".repeat(rating) + "☆".repeat(5 - rating);
+        reviewAvrg.textContent = stars;
+
+        // Add last review
+        const lastReview = document.createElement("p");
+        lastReview.textContent = listing.lastRev || "No Reviews Yet";
+
+        // Append all elements to the card
+        const fragment = document.createDocumentFragment();
+        fragment.append(userImg, userName, country, city, street, reviewAvrg, lastReview);
+        listingDiv.appendChild(fragment);
+
+        // Add the card to the container
+        listingsContainer.appendChild(listingDiv);
     });
-});
-
-function acceptOffer() {
-    alert('Offer accepted!');
-    // Additional logic for accepting an offer can be added here
 }
 
-function messageCaretaker() {
-    alert('Messaging the caretaker...');
-    // Additional logic for messaging a caretaker can be added here
-}
 
