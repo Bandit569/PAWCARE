@@ -65,7 +65,7 @@ class ServiceRequestModel
         $stmt->bindColumn("request_status", $status);
         $stmt->bindColumn("address_id", $addressId);
         $stmt->bindColumn("acceptor_id", $acceptorId);
-        $stmt->bindColumn("price", $price);
+        // $stmt->bindColumn("price", $price);
         $stmt->bindColumn("description", $description);
 
         $addressModel = new AddressModel();;
@@ -94,7 +94,7 @@ class ServiceRequestModel
                 $serviceTypeId,
                 $address,
                 $description,
-                $price,
+                "",
                 $usere,
             );
         }
@@ -113,12 +113,12 @@ class ServiceRequestModel
         $stmt = $this->conn->prepare($sql);
         $requestStatus = "New";
         $stmt->execute([
-            ':userID' => $data['userID'],               // Matches the :userID placeholder
-            ':requestType' => $data['requestType'],     // Matches the :requestType placeholder
-            ':serviceTypeID' => $data['serviceTypeID'], // Matches the :serviceTypeID placeholder
-            ':date' => $data['date'],                  // Matches the :date placeholder
-            ':addressID' => $data['addressID'],        // Matches the :addressID placeholder
-            'requestStatus' => $requestStatus // Matches the :requestStatus placeholder
+            ':userID' => $data['userID'],
+            ':requestType' => $data['requestType'],
+            ':serviceTypeID' => $data['serviceTypeID'],
+            ':date' => $data['date'],
+            ':addressID' => $data['addressID'],
+            'requestStatus' => $requestStatus
         ]);
         // Get the last inserted ID
         $serviceRequestId = $this->conn->lastInsertId();
@@ -150,22 +150,20 @@ class ServiceRequestModel
         $stmt = $this->conn->prepare($sql);
         $requestStatus = "New";
         try {
-        $stmt->execute([
-            ':userID' => $data['userID'],               // Matches the :userID placeholder
-            ':requestType' => $data['requestType'],     // Matches the :requestType placeholder
-            ':serviceTypeID' => $data['serviceTypeID'], // Matches the :serviceTypeID placeholder
-            ':date' => $data['date'],                  // Matches the :date placeholder
-            ':addressID' => $data['addressID'],        // Matches the :addressID placeholder
-            'requestStatus' => $requestStatus // Matches the :requestStatus placeholder
-        ]);
-                //echo "Service request added successfully!";
-                return true; // Return true if all operations succeeded
-            } catch (PDOException $e) {
-                error_log("Error linking pet IDs: " . $e->getMessage());
-                throw $e; // Re-throw to debug further, or handle gracefully
-            }
-
-        return false;
+            $stmt->execute([
+                ':userID' => $data['userID'],
+                ':requestType' => $data['requestType'],
+                ':serviceTypeID' => $data['serviceTypeID'],
+                ':date' => $data['date'],                  // Matches the :date placeholder
+                ':addressID' => $data['addressID'],        // Matches the :addressID placeholder
+                'requestStatus' => $requestStatus // Matches the :requestStatus placeholder
+            ]);
+            //echo "Service request added successfully!";
+            return true; // Return true if all operations succeeded
+        } catch (PDOException $e) {
+            error_log("Error linking pet IDs: " . $e->getMessage());
+            throw $e; // Re-throw to debug further, or handle gracefully
+        }
     }
 
     public function getPetsByUserId(int $userID): array
@@ -228,4 +226,51 @@ class ServiceRequestModel
         return $stmt->execute();
     }
 
+    /**
+     * Method to get all service requests
+     * @param mixed $search - Search Parameter
+     * @param string $userId - User ID
+     * @param int $role - User type
+     * @return array - Array of service requests
+     * @author Leela
+     */
+    public function getAllServiceRequests($search = "", string $userId, int $role)
+    {
+        $sql = "SELECT * FROM " . $this->table;
+
+        switch ($role) {
+                // Pet Owner
+            case 2:
+                $sql .= " WHERE user_id = '$userId'";
+                if (!empty($search)) {
+                    $sql .= " AND (request_type LIKE '$search' OR request_status LIKE '$search')";
+                }
+                break;
+            default:
+                if (!empty($search)) {
+                    $sql .= " WHERE request_type LIKE '$search' OR request_status LIKE '$search'";
+                }
+                break;
+        }
+
+        $req = $this->conn->query($sql);
+        $req->execute();
+        $data = $req->fetchAll();
+        return $data;
+    }
+
+    /**
+     * Method to update service request status
+     * @param string $service_request_id - Service request ID
+     * @param string $status - Status
+     * @return bool - True if updated successfully
+     * @author: Leela
+     */
+    public function updateStatus(string $service_request_id, string $status) {
+        $sql = "UPDATE " . $this->table . " SET request_status = ? WHERE service_request_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1, $status);
+        $stmt->bindParam(2, $service_request_id);
+        return $stmt->execute();
+    } 
 }

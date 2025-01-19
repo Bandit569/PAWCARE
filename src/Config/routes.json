@@ -95,5 +95,19 @@
     "action": "addPet",
     "method": "POST",
     "param": []
+  },
+  {
+    "path": "/ManageRequest",
+    "controller": "ServiceRequestController",
+    "action": "renderServiceRequests",
+    "method": "GET",
+    "param": []
+  },
+  {
+    "path": "/ManageRequest",
+    "controller": "ServiceRequestController",
+    "action": "handleServiceAction",
+    "method": "POST",
+    "param": []
   }
 ]

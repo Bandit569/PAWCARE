@@ -9,6 +9,8 @@ use DateTime;
 
 class ServiceRequestController extends BaseController
 {
+
+
     public function renderRequestForm(): void
     {
         session_start();
@@ -31,7 +33,6 @@ class ServiceRequestController extends BaseController
         $serviceTypes = $serviceRequestModel->getServiceTypes();
         $addresses = $serviceRequestModel->getAddressesByUserId($userID);
 
-
         $data = [
             'userID' => $userID,
             'pets' => $pets,
@@ -39,7 +40,7 @@ class ServiceRequestController extends BaseController
             'addresses' => $addresses,
         ];
 
-        $this->addParam("data",$data);
+        $this->addParam("data", $data);
         $this->view("Request");
         // Pass the collected data to the view
     }
@@ -66,7 +67,7 @@ class ServiceRequestController extends BaseController
             'addresses' => $addresses,
         ];
 
-        $this->addParam("data",$data);
+        $this->addParam("data", $data);
         $this->view("Offers");
         // Pass the collected data to the view
     }
@@ -102,7 +103,6 @@ class ServiceRequestController extends BaseController
                 //var_dump($data);
                 // Validate input data
                 if (!$this->validateData($data)) {
-
                 } else {
 
                     // Add service request to the database
@@ -122,16 +122,12 @@ class ServiceRequestController extends BaseController
                     }
                 }
             }
-
+        } catch (Exception $e) {
+            // Log the exception and display an error
+            error_log($e->getMessage());
+            echo "Something went wrong: " . $e->getMessage();
         }
-        catch
-            (Exception $e) {
-                // Log the exception and display an error
-                error_log($e->getMessage());
-                echo "Something went wrong: " . $e->getMessage();
-            }
     }
-
 
     public function submitOffer(): void
     {
@@ -163,7 +159,6 @@ class ServiceRequestController extends BaseController
                 //var_dump($data);
                 // Validate input data
                 if (!$this->validateData($data)) {
-
                 } else {
 
                     // Add service request to the database
@@ -183,10 +178,7 @@ class ServiceRequestController extends BaseController
                     }
                 }
             }
-
-        }
-        catch
-        (Exception $e) {
+        } catch (Exception $e) {
             // Log the exception and display an error
             error_log($e->getMessage());
             echo "Something went wrong: " . $e->getMessage();
@@ -256,5 +248,51 @@ class ServiceRequestController extends BaseController
             }
         }
         return true;
+    }
+
+    /**
+     * Method to render service requests
+     * @return void
+     * @author Leela
+     */
+    public function renderServiceRequests(): void
+    {
+        session_start();
+
+        if (!isset($_SESSION['user']['id'])) {
+            echo "User not logged in.";
+            return;
+        }
+
+        $userId = $_SESSION['user']['id'];
+        $role = $_SESSION['user']['role'];
+
+        $serviceRequestModel = new ServiceRequestModel();
+        $search = isset($_GET['search']) ? $_GET['search'] : "";
+        $requests = $serviceRequestModel->getAllServiceRequests($search, $userId, $role);
+        $this->addParam("requests", $requests);
+        $this->addParam("role", $role);
+        $this->addParam("userId", $userId);
+
+        $this->view("ManageRequest");
+    }
+
+    /**
+     * Method to handle service request actions
+     * @return void
+     * @author Leela
+     */
+    public function handleServiceAction()
+    {
+        $service_request_id = $_POST['service_request_id'];
+        $new_status = $_POST['action'];
+
+        $serviceRequestModel = new ServiceRequestModel();
+
+        if ($serviceRequestModel->updateStatus($service_request_id, $new_status)) {
+            $this -> renderServiceRequests();
+        } else {
+            echo "<script>alert('Error updating status.');</script>";
+        }
     }
 }
