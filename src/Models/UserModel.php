@@ -33,13 +33,13 @@ class UserModel
 
     public function authenticateUser(int $userid)
     {
-        $sql = "SELECT * FROM user_details WHERE user_id =:user_id";
+        $sql = "SELECT * FROM user_details WHERE user_username =:user_id";
         $stmt = $this->conn->query($sql, [':user_id' => $userid]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getUserById(int $userId): ?UserEntity {
-        $sql = "SELECT * FROM $this->table WHERE user_id = :userId";
+        $sql = "SELECT * FROM $this->table WHERE user_username = :userId";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
         $stmt->execute();

@@ -1,26 +1,28 @@
 /* Form Container */
-.form-container {
+/*.form-container {
     background-color: #fff;
     padding: 10px 15px;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 66%;
     align-items: center;
+    justify-content: center;
+    display : flex;
 }
 
-/* Form Title */
+!* Form Title *!
 .form-container h1 {
     text-align: center;
     color: #ff6f00;
     margin-bottom: 5px;
 }
 
-/* Form Group Styling */
+!* Form Group Styling *!
 .form-group {
     display: flex;
     align-items: center;
     margin-bottom: 12px;
-}
+}*/
 
 /* .form-group label {
     flex: 1; !* Labels take 1 part of space *!
@@ -53,4 +55,59 @@
 
 button:hover {
     background-color: #e65c00;
+}
+
+/* trying some new css */
+.image-container {
+    width: 33.33%;
+    background: url('/PAWCARE/public/images/GPTMyLove.webp') no-repeat center center;
+    background-size: cover;
+}
+
+.login-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f9;
+}
+
+.login-form {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.login-form h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    font-size: 18px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-form button:hover {
+    background-color: #0056b3;
 }
