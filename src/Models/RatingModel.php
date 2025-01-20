@@ -59,9 +59,9 @@ class RatingModel
 
         if ($stmt->execute()) {
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
             if ($result) {
                 $timeStamp = new DateTime($result['timestamp']);
-
                 return new RatingEntity(
                     (int)$result['rating_id'],
                     (int)$result['rating'],

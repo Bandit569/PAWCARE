@@ -57,5 +57,6 @@ class UserEntity
     {
         $ratingModel = new RatingModel();
         return $ratingModel -> getLastReviewByRatedId($this->id);
+
     }
 }

@@ -35,7 +35,12 @@ class petOwnerSearch extends BaseController
 
 
 
-
+         $serviceRequestModel = new ServiceRequestModel();
+         $listings = $serviceRequestModel -> PetOwnerSearchGetter($filters);
+         $ServiceTypeModel = new ServiceTypeModel();
+         $serviceTypes = $ServiceTypeModel -> getServiceTypes();
+         $this-> addParam("services", $serviceTypes);
+         $this -> addParam("listings", $listings);
          $this->view("petOwnerSearch");
     }
 }

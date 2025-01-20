@@ -23,7 +23,6 @@ use \Classes\Exceptions\ViewNotFoundException;
         $this->_param = array();
         $this->addParam("httprequest", $this->_httpRequest);
         $this->addParam("config", $this->_config);
-        $this->bindManager();
     }
 
     protected function view($filename): void
@@ -43,10 +42,6 @@ use \Classes\Exceptions\ViewNotFoundException;
         }
     }
 
-    public function bindManager()
-    {
-
-    }
 
     public function addParam($name,$value): void
     {

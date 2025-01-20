@@ -38,7 +38,7 @@ use Entities\ServiceTypeEntity;
     <div>
         <section class="search-filters">
             <h2>Search Filters</h2>
-            <form id="search-form" method="GET" action="PAWCARE/petOwnerSearch">
+            <form id="search-form" method="GET" action="petOwnerSearch">
                 <div class="form-group">
                     <label for="town">Town:</label>
                     <input type="text" id="town" name="town" placeholder="Enter town" maxlength="50" aria-label="Town">
@@ -75,50 +75,34 @@ use Entities\ServiceTypeEntity;
 
 
             <div class="caregiver-grid">
-                <!-- Sample caregiver card -->
                 <script>
-
-
+                    const listingsData = <?php
+                        echo json_encode(array_map(function ($listing) {
+                            return [
+                                'img' => 'placeholder.jpg',
+                                'name' => $listing->getUser()->getFirstName() . ' ' . $listing->getUser()->getLastName(),
+                                'reviewAvrg' => $listing->getUser()->getPetOwnerReviewAverage() ?? 0,
+                                'country' => $listing->getAddress()->getCountry() ?? 'Unknown',
+                                'city' => $listing->getAddress()->getTown() ?? 'Unknown',
+                                'street' => $listing->getAddress()->getStreet() ?? 'Unknown',
+                                'lastRev' => $listing->getUser()->getLastReview()?->getComment() ?? 'No reviews available'
+                            ];
+                        }, $listings), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
+                        ?>;
                 </script>
-                <div class = "listingsContainer">
-                    <script>
-                        const listingsData = <?php
-                            echo json_encode(array_map(function ($listing) {
-                                return [
-                                    'img' => 'placeholder.jpg',
-                                    'name' => $listing->getUser()->getFirstName() . ' ' . $listing->getUser()->getLastName(),
-                                    'reviewAvrg' => $listing->getUser()->getPetOwnerReviewAverage() ?? 0,
-                                    'country' => $listing->getAddress()->getCountry() ?? 'Unknown',
-                                    'city' => $listing->getAddress()->getTown() ?? 'Unknown',
-                                    'street' => $listing->getAddress()->getStreet() ?? 'Unknown',
-                                    'lastRev' => $listing->getUser()->getLastReview()?->getComment() ?? 'No reviews available'
-                                ];
-                            }, $listings), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
-                            ?>;
-                    </script>
-                    <script src="/PAWCARE/public/js/petOwnerSearch.js"></script>
-                    <script>
-                        f13(listingsData); // Ensure the function is called after the external script is loaded
-                    </script>
-
-
-                </div>
-
-
-                <!--<div class="caregiver-card">
-                    <img src="placeholder.jpg" alt="Caregiver Photo" class="caregiver-photo">
-                    <div class="caregiver-info">
-                        <h3>John Doe</h3>
-                        <p>Location: London, UK</p>
-                        <p>Rating: ★★★★☆</p>
-                        <p>Specializes in: Dogs, Cats</p>
-                    </div>
-                </div>
-                 Additional cards will go here -->
+                <script src="/PAWCARE/public/js/petOwnerSearch.js"></script>
+                <script>
+                    f13(listingsData);
+                </script>
             </div>
         </section>
     </div>
 
 </main>
+<div class = "popup hidden">
+    <p>Are you sure?</p>
+    <button class="Yes">Yes!</button>
+    <button class="No">No!</button>
+</div>
 </body>
 </html>

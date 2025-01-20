@@ -6,7 +6,7 @@ function f13(data) {
     }
 
     // Get the container for listings
-    const listingsContainer = document.querySelector(".listingsContainer");
+    const listingsContainer = document.querySelector(".caregiver-grid");
     if (!listingsContainer) {
         console.error("Error: .listingsContainer element not found.");
         return;
@@ -49,11 +49,31 @@ function f13(data) {
 
         // Add last review
         const lastReview = document.createElement("p");
-        lastReview.textContent = listing.lastRev || "No Reviews Yet";
+        lastReview.textContent = "Last review: " + listing.lastRev || "No Reviews Yet";
+
+        const ratingbtn = document.createElement("button");
+        ratingbtn.textContent = "see all reviews";
+        ratingbtn.addEventListener("click", () => {
+            //fratings()
+        });
+
+        const acceptbtn = document.createElement("button");
+        acceptbtn.textContent = "accept";
+        acceptbtn.addEventListener("click", () => {
+            const form = document.createElement("form");
+            form.setAttribute("method", "POST");
+            form.action = "/PAWCARE/petOwnerSearch";
+        })
+
+        const hbox = document.createElement("div");
+        hbox.classList.add("button-box");
+
+        hbox.appendChild(ratingbtn);
+        hbox.appendChild(acceptbtn);
 
         // Append all elements to the card
         const fragment = document.createDocumentFragment();
-        fragment.append(userImg, userName, country, city, street, reviewAvrg, lastReview);
+        fragment.append(userImg, userName, country, city, street, reviewAvrg, lastReview, hbox);
         listingDiv.appendChild(fragment);
 
         // Add the card to the container
