@@ -1,0 +1,113 @@
+/* General reset for the container */
+.registration-body {
+    margin: 10px;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    background-color: #f5ebdf; /* Background matching the beige color */
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    /*align-items: center;*/
+}
+
+.registration-container {
+    width: 60%; /* Adjust width as necessary */
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+
+/* Styling for the form layout */
+.registration-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between rows */
+}
+
+form h1
+{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px; /* Space between label and input */
+}
+
+.form-group label {
+    width: 30%; /* Reserve space for the label */
+    font-size: 16px;
+    text-align: right;
+}
+
+.form-group input,
+.form-group select {
+    width: 65%; /* Input takes the remaining space */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Styling for the button */
+.registration-container button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #ff7a00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.registration-container button:hover {
+    background-color: #ff9f40;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 25px; /* Add spacing between buttons */
+    margin-top: 20px; /* Create space above the button container */
+}
+
+button {
+    width: 150px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 7px;
+    outline: none;
+}
+
+/* Styling for the Cancel button */
+button#cancelButton {
+    background-color: #f44336; /* Red */
+    color: white;
+}
+
+button:hover {
+    opacity: 0.9; /* Slight opacity change on hover */
+}
+
+/* Error message styling */
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px; /* Add space between input and error message */
+}
+
+/* Styling for invalid fields */
+.invalid {
+    border: 1px solid red;
+}

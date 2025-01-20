@@ -1,3 +1,13 @@
+<?php
+// Start session (if not already started)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Check if user is logged in by verifying 'user_id' in session
+$isLoggedIn = isset($_SESSION['user']['id']) && !empty($_SESSION['user']['id']);
+?>
+
 <nav>
     <button class="menu-toggle">
         <span class="material-symbols-outlined">menu</span>
@@ -11,101 +21,64 @@
         <li><a href="/PAWCARE">Home</a></li>
         <li><a href="/services">Services</a></li>
         <li class="dropdown">
-            <a href="#" class="dropbtn">Find a Caretaker</a>
+            <a href="#" class="dropbtn">Pet Owners</a>
             <ul class="dropdown-content">
-                <li><a class = "drop-down-a" href="/PAWCARE/Request">Post a Request</a></li>
-                <li><a class = "drop-down-a" href="/PAWCARE/petOwnerSearch">Search for a Caretaker</a></li>
+                <li><a class="drop-down-a" href="/PAWCARE/LoadRequest">Post a Request</a></li>
+                <li><a class="drop-down-a" href="/PAWCARE/petOwnerSearch">Search for a Caretaker</a></li>
             </ul>
         </li>
         <li class="dropdown">
-
-            <a href="#" class="dropbtn">Become a Caretaker</a>
+            <a href="#" class="dropbtn">Caretakers</a>
             <ul class="dropdown-content">
-                <li><a href="/PAWCARE/Offers">Post an Offer</a></li>
+                <li><a href="/PAWCARE/LoadOffer">Post an Offer</a></li>
                 <li><a href="/pet-owners">Look for Pet Owners in Need</a></li>
             </ul>
         </li>
         <li><a href="/contact">Contact</a></li>
     </ul>
-    <button id="login-btn" onclick="location.href='/PAWCARE/login'">Login</button>
-    <button id="profile-btn" style="display: none;" class="sidebar-toggle" id="sidebar-toggle">
-        <span class="material-symbols-outlined">account_circle</span>
-    </button>
 
+    <!-- Conditionally display Login or Profile buttons -->
+    <?php if (!$isLoggedIn): ?>
+        <!-- Show Login Button if NOT logged in -->
+        <button id="login-btn" onclick="location.href='/PAWCARE/login'">Login</button>
+    <?php else: ?>
+        <!-- Show Profile Button if logged in -->
+        <button id="sidebar-toggle" class="sidebar-toggle">
+            <span class="material-symbols-outlined">account_circle</span>
+            <span class="username">
+                <?php echo htmlspecialchars($_SESSION['user']['first_name'] ?? 'User'); ?>
+            </span>
+        </button>
+    <?php endif; ?>
 </nav>
 
-<div class="sidebar" id="sidebar">
-    <div class="profile">
-        <img src="https://via.placeholder.com/80" alt="Profile Picture">
-        <h3>John Doe</h3>
-        <p>Pet Owner</p>
+<!-- Sidebar for Logged-in User -->
+<?php if ($isLoggedIn): ?>
+    <div class="sidebar" id="sidebar">
+        <div class="profile">
+            <img src="https://via.placeholder.com/80" alt="Profile Picture">
+            <!-- Display the logged-in user’s name -->
+            <h3><?php echo htmlspecialchars($_SESSION['user']['first_name'] ?? 'User'); ?></h3>
+
+            <!-- Optional: Display user role -->
+<!--            <p>--><?php //echo htmlspecialchars($_SESSION['user']['role'] ?? ''); ?><!--</p>-->
+        </div>
+        <!-- Sidebar Links -->
+        <a href="/PAWCARE/profile-settings">Profile Settings</a>
+        <a href="/PAWCARE/ManageRequest">Manage Requests</a>
+        <a href="/PAWCARE/logout">Logout</a>
     </div>
-    <a href="#">Profile Settings</a>
-    <a href="#">Manage Requests</a>
-    <a href="#">Logout</a>
-</div>
-<script>
+<?php endif; ?>
 
-    // Toggle Sidebar visibility
+<script>
+    // Sidebar toggle functionality
     const sidebar = document.getElementById('sidebar');
-    const menuToggle = document.getElementById('sidebar-toggle');
-    const content = document.getElementById('content');
+    const profileButton = document.getElementById('sidebar-toggle');
 
-    // Toggle the sidebar popup on click
-    menuToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('open'); // Show/Hide the sidebar
-    });
-</script>
-
-<script>
-
-    const linkPreconnect1 = document.createElement('link');
-    linkPreconnect1.rel = 'preconnect';
-    linkPreconnect1.href = 'https://fonts.googleapis.com';
-    document.head.appendChild(linkPreconnect1);
-
-    const linkPreconnect2 = document.createElement('link');
-    linkPreconnect2.rel = 'preconnect';
-    linkPreconnect2.href = 'https://fonts.gstatic.com';
-    linkPreconnect2.crossOrigin = 'anonymous'; // Add crossorigin attribute
-    document.head.appendChild(linkPreconnect2);
-
-    const linkFont = document.createElement('link');
-    linkFont.rel = 'stylesheet';
-    linkFont.href = 'https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap';
-    document.head.appendChild(linkFont);
-</script>
-
-
-<script>
-// toggle display of Login/Register with Profile button
-    var username = "<?php echo $_SESSION['user_id']?>";
-    if(username) {
-        const isLoggedIn = true; // Set to false to simulate not logged in
+    // Only bind the event listener if elements exist
+    if (profileButton && sidebar) {
+        profileButton.addEventListener('click', () => {
+            sidebar.classList.toggle('open'); // Toggle sidebar visibility
+        });
     }
-    else {
-        isLoggedIn = false;
-    }
-
-    // Get button elements
-    const profileBtn = document.getElementById("profile-btn");
-    const loginBtn = document.getElementById("login-btn");
-
-    // Function to control button display
-    function controlButtonDisplay() {
-        if (isLoggedIn) {
-            // User is logged in: Show Profile button, hide Login/Register button
-            profileBtn.style.display = "block";
-            loginBtn.style.display = "none";
-        } else {
-            // User is NOT logged in: Show Login/Register button, hide Profile button
-            profileBtn.style.display = "none";
-            loginBtn.style.display = "block";
-        }
-    }
-
-    // Run the function on page load
-    controlButtonDisplay();
-
-
 </script>

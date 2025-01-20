@@ -23,13 +23,13 @@ session_start();
                 <img src="/PAWCARE/public/Images/GPTMyLove.webp" alt="Cat">
             </div>
             <div class="form-container">
-                <h1>Service Request Form</h1>
+                <h1>Service Offer Form</h1>
 
                 <?php if (isset($data['errorMessage'])): ?>
                     <p style="color:red;"><?php echo htmlspecialchars($data['errorMessage']); ?></p>
                 <?php endif; ?>
 
-                <form action="/PAWCARE/submitRequest" method="POST">
+                <form action="/PAWCARE/submitOffer" method="POST">
                     <!-- User ID -->
                     <div class="form-group">
                         <label for="userID">User ID:</label>
@@ -37,15 +37,15 @@ session_start();
                     </div>
 
                     <!-- Pet ID Dropdown -->
-                    <div class="form-group">
-                        <label for="petId">Pet ID:</label>
-                        <select id="petId" name="petId" required>
-                            <option value="0" disabled selected>Select a pet</option>
-                            <?php foreach ($data['pets'] as $pet): ?>
-                                <option value="<?= $pet['pet_id'] ?>"><?= htmlspecialchars($pet['pet_name']) ?></option>
-                            <?php endforeach; ?>
-                        </select><br><br>
-                    </div>
+<!--                    <div class="form-group">-->
+<!--                        <label for="petId">Pet ID:</label>-->
+<!--                        <select id="petId" name="petId" required>-->
+<!--                            <option value="0" disabled selected>Select a pet</option>-->
+<!--                            --><?php //foreach ($data['pets'] as $pet): ?>
+<!--                                <option value="--><?php //= $pet['pet_id'] ?><!--">--><?php //= htmlspecialchars($pet['pet_name']) ?><!--</option>-->
+<!--                            --><?php //endforeach; ?>
+<!--                        </select><br><br>-->
+<!--                    </div>-->
 
                     <!-- Service Type Dropdown -->
                     <div class="form-group">
@@ -62,8 +62,9 @@ session_start();
                     <div class="form-group">
                         <label for="requestType">Request Type:</label>
                         <select id="requestType" name="requestType" required>
-                            <option value="1" selected>Service Request</option>
-                            <option value="2" disabled>Service Offer</option>
+<!--                            <option value="0" disabled>Select Request Type</option>-->
+                            <option value="1" disabled>Service Request</option>
+                            <option value="2" selected>Service Offer</option>
                         </select><br><br>
                     </div>
 
@@ -86,18 +87,16 @@ session_start();
                         <input type="time" id="time" name="time" required><br><br>
                     </div>
 
-                    <div class="form-group">
-                        <!-- Hidden Default Request Status -->
-                        <input type="hidden" name="requestStatus" value="New">
+                    <!-- Hidden Default Request Status -->
+                    <input type="hidden" name="requestStatus" value="New">
 
-                        <!-- Acceptor ID -->
-                        <input type="hidden" id="acceptorID" name="acceptorID" value="null">
-                    </div>
+                    <!-- Hidden Acceptor ID -->
+                    <input type="hidden" name="acceptorID" value="null">
 
                     <!-- Submit Button -->
-                    <button class="Reqbutton" type="submit">Submit Service Request</button>
+                    <button class="Reqbutton" type="submit">Submit Service Offer</button>
                 </form>
-        </div>
+            </div>
         </div>
     </section>
 </main>

@@ -23,6 +23,13 @@
     ]
   },
   {
+    "path" : "/logout",
+    "controller" : "LogoutController",
+    "action" : "logout",
+    "method" : "GET",
+    "param" : []
+  },
+  {
     "path" : "/MyError",
     "controller" : "MyError",
     "action" : "Show",
@@ -56,13 +63,45 @@
     "path" : "/register",
     "controller" : "RegisterController",
     "action" : "store",
+    "path" : "/Register",
+    "controller" : "UserController",
+    "action" : "registerForm",
     "method" : "GET",
     "param" : []
   },
+
   {
-    "path": "/Offers",
-    "controller": "ServiceOfferController",
+    "path" : "/Register",
+    "controller" : "RegisterController",
+    "action" : "registerUser",
+    "method" : "POST",
+    "param" : []
+  },
+  {
+    "path": "/LoadOffer",
+    "controller": "ServiceRequestController",
+    "action": "renderOfferForm",
+    "method": "GET",
+    "param": []
+  },
+  {
+    "path": "/submitOffer",
+    "controller": "ServiceRequestController",
     "action": "submitOffer",
+    "method": "POST",
+    "param": []
+  },
+  {
+    "path": "/RegisterPet",
+    "controller": "ServiceRequestController",
+    "action": "addPet",
+    "method": "POST",
+    "param": []
+  },
+  {
+    "path": "/ManageRequest",
+    "controller": "ServiceRequestController",
+    "action": "renderServiceRequests",
     "method": "GET",
     "param": []
   },
@@ -72,5 +111,12 @@
     "action" : "deleteid",
     "method" : "DELETE",
     "param" : []
+  },
+  {
+    "path": "/ManageRequest",
+    "controller": "ServiceRequestController",
+    "action": "handleServiceAction",
+    "method": "POST",
+    "param": []
   }
 ]

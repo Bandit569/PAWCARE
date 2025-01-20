@@ -27,4 +27,14 @@ class UserTypeModel
         }
         return null;
     }
+/* function to get all roles to dynamically populate dropdown in Registration form */
+    public function getAllRoles() {
+        try {
+            $stmt = $this->conn->query("SELECT iduser_type, user_type_name FROM user_type");
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error fetching roles: " . $e->getMessage());
+            return [];
+        }
+    }
 }

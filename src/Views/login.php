@@ -18,10 +18,9 @@
 <?php require_once (dirname(__DIR__).'\Views\components\navbar.php'); ?>
 
         <div class="login-container">
-            <form class="login-form">
+            <form class="login-form" action="/PAWCARE/login" method="POST">
             <h1>Login to PawCare</h1>
 
-            <form action="/login" method="POST">
                 <label for="userid">User ID</label>
                 <input type="userid" name="userid" id="userid" required>
 
@@ -29,13 +28,19 @@
                 <input type="password" name="password" id="password" required>
 
                 <button class="Reqbutton" type="submit">Login</button>
-
-                <p><br>Don't have an account? <a href="/Register" class="cta-button">Register here</a></br></p>
             </form>
         </div>
+<div class="login-container">
+        <div class="form-group">
+<p>
+                Don't have an account?
+            <a href="/PAWCARE/Register" class="Reqbutton">Register Here</a>
+</p>
+        </div>
+</div>
 
 <?php require_once (dirname(__DIR__).'\Views\components\footer.php'); ?>
-
+<!-- adding a comment to check if commit works now -->
 </body>
 </html>
 
