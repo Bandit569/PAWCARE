@@ -117,7 +117,7 @@
         </form>
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_password'])) {
-            $servername = "127.0.0.1:3302";
+            $servername = "localhost";
             $username = "root";
             $password = "root";
             $dbname = "petcare";

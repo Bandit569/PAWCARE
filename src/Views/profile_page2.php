@@ -189,7 +189,7 @@
         // Logout
         function logout() {
             if (confirm("Are you sure you want to logout?")) {
-                window.location.href = "logout.php"; // Change to your logout handling page
+                window.location.href = "/PAWCARE/logout"; // Change to your logout handling page
             }
         }
     </script>

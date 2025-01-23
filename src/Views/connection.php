@@ -1,6 +1,6 @@
 <?php
 // Database connection setup
-$servername = "127.0.0.1:3302";
+$servername = "localhost";
 $username = "root";
 $password = "root";
 $dbname = "petcare"; // Replace with your actual database name
