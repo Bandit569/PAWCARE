@@ -31,7 +31,7 @@ $isLoggedIn = isset($_SESSION['user']['id']) && !empty($_SESSION['user']['id']);
             <a href="#" class="dropbtn">Caretakers</a>
             <ul class="dropdown-content">
                 <li><a href="/PAWCARE/LoadOffer">Post an Offer</a></li>
-                <li><a href="/pet-owners">Look for Pet Owners in Need</a></li>
+                <li><a href="/PAWCARE/caretakerSearch">Look for Pet Owners in Need</a></li>
             </ul>
         </li>
         <li><a href="/contact">Contact</a></li>
@@ -64,7 +64,7 @@ $isLoggedIn = isset($_SESSION['user']['id']) && !empty($_SESSION['user']['id']);
 <!--            <p>--><?php //echo htmlspecialchars($_SESSION['user']['role'] ?? ''); ?><!--</p>-->
         </div>
         <!-- Sidebar Links -->
-        <a href="/PAWCARE/profile-settings">Profile Settings</a>
+        <a href="/PAWCARE/src/Views/profile_page2.php">Profile Settings</a>
         <a href="/PAWCARE/ManageRequest">Manage Requests</a>
         <a href="/PAWCARE/logout">Logout</a>
     </div>

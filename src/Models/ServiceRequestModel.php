@@ -8,6 +8,8 @@ use Entities\ServiceRequestEntity;
 use Entities\UserEntity;
 use Entities\UserTypeEntity;
 use PDO;
+use Entities\PetEntity;
+use Models\PetModel;
 
 
 class ServiceRequestModel
@@ -292,7 +294,7 @@ class ServiceRequestModel
                      sr.user_id, sr.acceptor_id, sr.service_type_id, sr.address_id";
         $from = "\nFROM service_request sr";
         $join = "\nJOIN rating r ON sr.service_request_id = r.service_request_id";
-        $where = "\nWHERE sr.request_type != :excludedType";
+        $where = "\nWHERE sr.request_type != :excludedType and request_status = 'Pending' ";
 
         // Add filters for town and country
         if (!empty($filters['town']) || !empty($filters['country'])) {
@@ -385,10 +387,6 @@ class ServiceRequestModel
 
         }
     }
-}
-
-
-
 
     /**
      * Method to update service request status
@@ -404,4 +402,88 @@ class ServiceRequestModel
         $stmt->bindParam(2, $service_request_id);
         return $stmt->execute();
     }
+
+    public function caretakerGetter($filters){
+        $stmt = $this->conn->prepare($this -> buildSearchQuery($filters));
+        $excludedType = 0; // Service request type to exclude
+        $stmt->bindParam(':excludedType', $excludedType, PDO::PARAM_INT);
+        if(!empty($filters['country'])){
+            $stmt->bindParam(':country', $filters['country']);
+        }
+        if(!empty($filters['town'])){
+            $stmt->bindParam(':town', $filters['town']);
+        }
+        if(!empty($filters['rating'])){
+            $stmt->bindParam(':rating', $filters['rating']);
+        }
+
+
+        $stmt->execute();
+
+        $serviceRequests = [];
+
+        // Bind columns to PHP variables
+
+        $stmt -> bindColumn("service_request_id", $id);
+        $stmt -> bindColumn("user_id",$userId);
+        $stmt -> bindColumn("service_type_id",$serviceTypeId);
+        $stmt -> bindColumn("request_type",$requestTypeId);
+        $stmt -> bindColumn("date",$date);
+        $stmt -> bindColumn("request_status",$status);
+        $stmt -> bindColumn("address_id",$addressId);
+        $stmt -> bindColumn("acceptor_id",$acceptorId);
+
+        $addressModel = new AddressModel();;
+        $date2 = new DateTime($date);
+
+        $petModel = new PetModel();
+
+        // Fetch all results
+        while ($stmt->fetch(PDO::FETCH_BOUND)) {
+
+            $Userm = new UserModel();
+            $usere = $Userm -> getUserById($userId);
+
+
+
+            $address = $addressModel->getAddressById($addressId);
+            if(!isset($address)){
+                $address = new AddressEntity($addressId,0,"ERROR","ERROR","ERROR",$userId);
+            }
+
+            $sr = new ServiceRequestEntity(
+                $id,
+                $date2,
+                $status,
+                $requestTypeId,
+                $serviceTypeId,
+                $address,
+                $usere,
+            );
+            $petArray = $petModel->getPetByRequestId($id);
+            foreach($petArray as $pet){
+
+                $sr->addPet($pet);
+            }
+
+            // Create and store the ServiceRequestEntity object
+            $serviceRequests[] = $sr;
+        }
+
+
+        return $serviceRequests;
+    }
+
+
+    public function acceptRequest($acceptorId, $serviceRequestId): bool
+    {
+        $sql = "UPDATE " . $this->table . " SET request_status = 'Completed' ,
+        acceptor_id = :acceptor_id
+        WHERE service_request_id = :service_request_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":acceptor_id", $acceptorId);
+        $stmt->bindParam(":service_request_id", $serviceRequestId);
+        return $stmt->execute();
+    }
 }
+

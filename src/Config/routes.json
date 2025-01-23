@@ -45,14 +45,35 @@
     "param" : []
   },
   {
-    "path" : "/Request",
-    "controller" : "ServiceRequestController",
-    "action" : "submitRequest",
+    "path" : "/caretakerSearch",
+    "controller" : "CaretakerSearchController",
+    "action" : "caretakerSearch",
     "method" : "GET",
     "param" : []
   },
   {
-    "path": "/Request",
+    "path" : "/caretakerSearch",
+    "controller" : "CaretakerSearchController",
+    "action" : "accept",
+    "method" : "POST",
+    "param" : []
+  },
+  {
+    "path" : "/petOwnerSearch",
+    "controller" : "CaretakerSearchController",
+    "action" : "accept",
+    "method" : "POST",
+    "param" : []
+  },
+  {
+    "path" : "/LoadRequest",
+    "controller" : "ServiceRequestController",
+    "action" : "renderRequestForm",
+    "method" : "GET",
+    "param" : []
+  },
+  {
+    "path": "/submitRequest",
     "controller": "ServiceRequestController",
     "action": "submitRequest",
     "method": "POST",
@@ -60,9 +81,6 @@
   },
 
   {
-    "path" : "/register",
-    "controller" : "RegisterController",
-    "action" : "store",
     "path" : "/Register",
     "controller" : "UserController",
     "action" : "registerForm",

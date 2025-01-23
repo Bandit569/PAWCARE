@@ -13,7 +13,9 @@ class ServiceRequestController extends BaseController
 
     public function renderRequestForm(): void
     {
-        session_start();
+        if(session_status() == PHP_SESSION_NONE){
+            session_start();
+        }
         // Fetch user ID from session
         if (!isset($_SESSION['user']['id'])) {
             echo "User not logged in.";
@@ -257,7 +259,9 @@ class ServiceRequestController extends BaseController
      */
     public function renderServiceRequests(): void
     {
-        session_start();
+        if(session_status()==PHP_SESSION_NONE){
+            session_start();
+        }
 
         if (!isset($_SESSION['user']['id'])) {
             echo "User not logged in.";
@@ -295,4 +299,6 @@ class ServiceRequestController extends BaseController
             echo "<script>alert('Error updating status.');</script>";
         }
     }
+
+
 }

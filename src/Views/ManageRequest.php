@@ -9,8 +9,8 @@
     <title>Pet Care Connect - Find trusted sitters</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/petcare/src/public/css/stylesheet.css">
-    <link rel="stylesheet" href="/petcare/src/public/css/registerStyle.css">
+    <link rel="stylesheet" href="/PAWCARE/public/css/stylesheet.css">
+    <link rel="stylesheet" href="/PAWCARE/public/css/registerStyle.css">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <meta name="author" content="Group G2D">
     <meta name="description" content="Connect with reliable pet sitters and caretakers.">

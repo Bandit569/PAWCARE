@@ -3,19 +3,15 @@
 namespace Controllers;
 
 use Classes\Exceptions\ViewNotFoundException;
-use Controllers\BaseController;
 use Models\ServiceRequestModel;
 use Models\ServiceTypeModel;
 
-
-class petOwnerSearch extends BaseController
+class CaretakerSearchController extends BaseController
 {
     /**
      * @throws ViewNotFoundException
-     *
-     *
      */
-    function petOwnerSearch(): void
+    function CaretakerSearch(): void
     {
         $filters = array();
 
@@ -35,13 +31,13 @@ class petOwnerSearch extends BaseController
 
 
 
-         $serviceRequestModel = new ServiceRequestModel();
-         $listings = $serviceRequestModel -> PetOwnerSearchGetter($filters);
-         $ServiceTypeModel = new ServiceTypeModel();
-         $serviceTypes = $ServiceTypeModel -> getServiceTypes();
-         $this-> addParam("services", $serviceTypes);
-         $this -> addParam("listings", $listings);
-         $this->view("petOwnerSearch");
+        $serviceRequestModel = new ServiceRequestModel();
+        $listings = $serviceRequestModel -> caretakerGetter($filters);
+        $ServiceTypeModel = new ServiceTypeModel();
+        $serviceTypes = $ServiceTypeModel -> getServiceTypes();
+        $this-> addParam("services", $serviceTypes);
+        $this -> addParam("listings", $listings);
+        $this->view("caretakerSearch");
     }
 
     /**
@@ -65,6 +61,7 @@ class petOwnerSearch extends BaseController
             }
         }
         $this -> addParam("message", $message);
-        $this -> petOwnerSearch();
+        $this -> caretakerSearch();
     }
+
 }

@@ -8,6 +8,7 @@
  */
 
 use Entities\ServiceTypeEntity;
+use Entities\PetEntity;
 
 
 
@@ -16,7 +17,7 @@ use Entities\ServiceTypeEntity;
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Look for a caretaker!</title>
+    <title>Look for a caretaker!</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/PAWCARE/public/css/stylesheet.css">
@@ -44,6 +45,7 @@ use Entities\ServiceTypeEntity;
     }
 
     ?>
+
     <div>
         <section class="search-filters">
             <h2>Search Filters</h2>
@@ -79,6 +81,7 @@ use Entities\ServiceTypeEntity;
                 <button type="submit" class="btn-search">Search</button>
             </form>
         </section>
+
         <section class="results">
             <h2>Caregivers Near You</h2>
 
@@ -88,20 +91,27 @@ use Entities\ServiceTypeEntity;
                     const listingsData = <?php
                         echo json_encode(array_map(function ($listing) {
                             return [
+                                    'id' => $listing -> getId(),
                                 'img' => 'placeholder.jpg',
                                 'name' => $listing->getUser()->getFirstName() . ' ' . $listing->getUser()->getLastName(),
                                 'reviewAvrg' => $listing->getUser()->getPetOwnerReviewAverage() ?? 0,
                                 'country' => $listing->getAddress()->getCountry() ?? 'Unknown',
                                 'city' => $listing->getAddress()->getTown() ?? 'Unknown',
                                 'street' => $listing->getAddress()->getStreet() ?? 'Unknown',
-                                'lastRev' => $listing->getUser()->getLastReview()?->getComment() ?? 'No reviews available'
+                                'lastRev' => $listing->getUser()->getLastReview()?->getComment() ?? 'No reviews available',
+                                'petName' => $listing->getPetName() ?? 'Unknown',
+                                'petBreed' => $listing->getPetBreed() ?? 'Unknown',
+                                'petSpecies' => $listing->getPetSpecies() ?? 'Unknown',
+                                'petAge' => $listing->getPetAge() ?? 'Unknown',
+                                'petMedication' => $listing->getPetMedication() ?? 'Unknown',
+                                'petInfo' => $listing->getPetInfo() ?? 'Unknown'
                             ];
                         }, $listings), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
                         ?>;
                 </script>
                 <script src="/PAWCARE/public/js/petOwnerSearch.js"></script>
                 <script>
-                    f13(listingsData);
+                    f15(listingsData);
                 </script>
             </div>
         </section>

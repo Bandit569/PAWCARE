@@ -47,7 +47,8 @@ class UserModel
 
 
 
-    public function authenticateUser($userid){
+    public function authenticateUser($userid): array
+    {
         $sql = "SELECT * FROM user_details WHERE user_username = :user_id";
         $stmt = $this->conn->prepare($sql); // Prepare the SQL statement
         $stmt->execute([':user_id' => $userid]); // Execute with bound parameters
@@ -55,7 +56,7 @@ class UserModel
         }
 
     public function getUserById(int $userId): ?UserEntity {
-        $sql = "SELECT * FROM $this->table WHERE user_username = :userId";
+        $sql = "SELECT * FROM $this->table WHERE user_id = :userId";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
         $stmt->execute();

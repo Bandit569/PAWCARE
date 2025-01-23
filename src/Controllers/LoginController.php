@@ -19,25 +19,30 @@ class LoginController extends BaseController
             $authenticatedUser = $UserLoginModel->authenticateUser($userid);
             // echo "Inside authenticate function!";
             //var_dump($authenticatedUser);
-            if ($password == $authenticatedUser[0]['user_password']) {
-                if (session_status() === PHP_SESSION_NONE) {
-                    session_start();
+            if(isset($authenticatedUser[0]['user_password'])){
+                if ($password == $authenticatedUser[0]['user_password']) {
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                    //echo "Session started!";
+                    // Store user details in session
+                    $_SESSION['user'] = [
+                        'id' => $authenticatedUser[0]['user_id'],
+                        'first_name' => $authenticatedUser[0]['user_first_name'], // Assuming 'user_name' is the field for the user's name
+                        'last_name' => $authenticatedUser[0]['user_last_name'],
+                        'role' => $authenticatedUser[0]['user_type'], // User role, if needed
+                    ];
+
+
+
+                    //header("Location: /Home");
+                    $this -> view('Home');
+                    exit();
+                } else {
+                    $this->view('login', ['error' => 'Invalid email or password.']);
                 }
-                //echo "Session started!";
-                // Store user details in session
-                $_SESSION['user'] = [
-                    'id' => $authenticatedUser[0]['user_id'],
-                    'first_name' => $authenticatedUser[0]['user_first_name'], // Assuming 'user_name' is the field for the user's name
-                    'last_name' => $authenticatedUser[0]['user_last_name'],
-                    'role' => $authenticatedUser[0]['user_type'], // User role, if needed
-                ];
-
-
-
-                //header("Location: /Home");
-                 $this -> view('Home');
-                 exit();
-            } else {
+            }
+            else{
                 $this->view('login', ['error' => 'Invalid email or password.']);
             }
         }
