@@ -289,10 +289,10 @@ class ServiceRequestController extends BaseController
 
         $serviceRequestModel = new ServiceRequestModel();
 
-        if ($serviceRequestModel->updateStatus($service_request_id, $new_status)) {
-            $this -> renderServiceRequests();
-        } else {
+        if (!$serviceRequestModel->updateStatus($service_request_id, $new_status)) {
             echo "<script>alert('Error updating status.');</script>";
         }
+
+        $this->renderServiceRequests();
     }
 }

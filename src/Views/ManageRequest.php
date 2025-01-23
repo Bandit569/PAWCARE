@@ -20,14 +20,17 @@
 <body>
     <?php require_once(dirname(__DIR__) . '\Views\components\navbar.php'); ?>
 
-    <h2>Service Requests</h2>
+    <div style="margin: 0 auto; width: 80%;">
 
-    <!-- Search bar -->
-    <div class="search-bar">
-        <form method="GET" action="/PAWCARE/ManageRequest">
-            <input type="text" name="search" placeholder="Search by Request Type or Status..." value="<?php echo htmlspecialchars($_GET['search'] ?? ""); ?>">
-            <button type="submit">Search</button>
-        </form>
+        <h2>Manage Requests</h2>
+
+        <!-- Search bar -->
+        <div class="search-bar">
+            <form method="GET" action="/PAWCARE/ManageRequest">
+                <input type="text" name="search" placeholder="Search by Request Type or Status..." value="<?php echo htmlspecialchars($_GET['search'] ?? ""); ?>">
+                <button type="submit">Search</button>
+            </form>
+        </div>
     </div>
 
     <table style="margin: 0 auto; border-collapse: collapse; border: 2px solid #FF8C00; width: 80%;">
@@ -74,8 +77,13 @@
                 echo "<td style='border: 2px solid #FF8C00; padding: 8px;'>" . htmlspecialchars($serviceTypeName) . "</td>";
 
                 if (!($role == 1 || $role == 2)) {
-                    echo "<td style='border: 2px solid #FF8C00; padding: 8px;'>
-                            <form method='POST' style='display:inline;'>
+                    if ($role == 4 && $userId == $row['user_id']) {
+                        echo "<td style='border: 2px solid #FF8C00; padding: 8px;'>
+                        my pet 
+                        </td>";
+                    } else {
+                        echo "<td style='border: 2px solid #FF8C00; padding: 8px;'>
+                        <form method='POST' style='display:inline;'>
                                 <input type='hidden' name='service_request_id' value='" . $row['service_request_id'] . "'>
                                 <button type='submit' name='action' value='Accepted' class='approve-btn' style='background-color: #32CD32; color: #FFF; border: none; padding: 5px 10px; margin-right: 4px; cursor: pointer;'>Accept</button>
                             </form>
@@ -88,6 +96,7 @@
                                 <button type='submit' name='action' value='Cancelled' class='cancel-btn' style='background-color: #FF6347; color: #FFF; border: none; padding: 5px 10px; cursor: pointer;'>Cancel</button>
                             </form>
                         </td>";
+                    }
                 }
 
                 echo "</tr>";

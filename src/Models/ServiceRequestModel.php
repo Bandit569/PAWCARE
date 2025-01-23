@@ -241,21 +241,27 @@ class ServiceRequestModel
         switch ($role) {
                 // Pet Owner
             case 2:
-                $sql .= " WHERE user_id = '$userId'";
+                $sql .= " WHERE user_id = :userId";
                 if (!empty($search)) {
-                    $sql .= " AND (request_type LIKE '$search' OR request_status LIKE '$search')";
+                    $sql .= " AND  request_status LIKE :search";
                 }
                 break;
             default:
                 if (!empty($search)) {
-                    $sql .= " WHERE request_type LIKE '$search' OR request_status LIKE '$search'";
+                    $sql .= " WHERE  request_status LIKE :search";
                 }
                 break;
         }
 
-        $req = $this->conn->query($sql);
-        $req->execute();
-        $data = $req->fetchAll();
+        $stmt = $this->conn->prepare($sql);
+        if ($role == 2) {
+            $stmt->bindParam(':userId', $userId);
+        }
+        if (!empty($search)) {
+            $stmt->bindParam(':search', $search);
+        }
+        $stmt->execute();
+        $data = $stmt->fetchAll();
         return $data;
     }
 
@@ -266,11 +272,33 @@ class ServiceRequestModel
      * @return bool - True if updated successfully
      * @author: Leela
      */
-    public function updateStatus(string $service_request_id, string $status) {
+    public function updateStatus(string $service_request_id, string $status)
+    {
+        if ($this->check_status($service_request_id, $status)) {
+            return false;
+        }
+
         $sql = "UPDATE " . $this->table . " SET request_status = ? WHERE service_request_id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1, $status);
         $stmt->bindParam(2, $service_request_id);
         return $stmt->execute();
-    } 
+    }
+
+
+    private function check_status(string $service_request_id, string $status)
+    {
+        $sql = "SELECT * FROM " . $this->table . " WHERE service_request_id = :request_id AND request_status = :status";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam('request_id', $service_request_id);
+        $stmt->bindParam('status', $status);
+        $stmt->execute();
+        $data = $stmt->fetchAll();
+
+        if (count($data) != 0) {
+            return true;
+        }
+
+        return false;
+    }
 }
